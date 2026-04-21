@@ -1,7 +1,11 @@
 ﻿using EasyDelivery.Application.DTOs.Pagamento;
 using EasyDelivery.Application.Interfaces;
 using EasyDelivery.Application.Services;
+using EasyDelivery.Domain.Entities.Enums;
+using MercadoPago.Client.Payment;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,19 +20,34 @@ namespace EasyDelivery.Controllers
         public PagamentoController(IPagamentoService pagamentoService)
         {
             _pagamentoService = pagamentoService;
-        }   
+        }
 
-        [HttpPost("/pagar")]
-        public async Task<IActionResult> PagarPedido([FromBody] PagamentoRequest pagamentoRequest)
+        [HttpPost("webhook")]
+        public async Task<IActionResult> Webhook([FromBody] JsonElement data)
         {
-            ValidacaoService validador = new ValidacaoService();
-            if (validador.ValidarPagamentoRequest(pagamentoRequest, out var mensagensErro))
-                return BadRequest(mensagensErro);
-
-            var result = await _pagamentoService.ProcessarPagamento(pagamentoRequest);
-            if (!result.Success)
+            var result = await _pagamentoService.PagamentoMercadoPago(data);
+            if(!result.Success)
                 return BadRequest(result.Message);
-            return Ok(result);
+
+            return Ok(result.Data);
+        }
+
+        [HttpGet("sucesso")]
+        public IActionResult Sucesso()
+        {
+            return Redirect("http://localhost:4200/cliente/pedidos");
+        }
+
+        [HttpGet("pendente")]
+        public IActionResult Pendente()
+        {
+            return Ok("cliente/pendente");
+        }
+
+        [HttpGet("erro")]
+        public IActionResult Falha()
+        {
+            return Ok("cliente/erro");
         }
     }
 }

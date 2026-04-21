@@ -19,6 +19,7 @@ namespace EasyDelivery.Application.DTOs.Pedido
         public RestauranteResponse Restaurante { get; set; } = default!;
         public int? EntregadorId { get; set; }
         public EntregadorResponse? Entregador { get; set; } = null;
+        public string PreferenceId { get; set; } = string.Empty;
 
         public StatusPedido Status { get; set; }
         public DateTime DataCriacao { get; set; }

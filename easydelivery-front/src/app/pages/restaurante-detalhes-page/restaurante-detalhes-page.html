@@ -1,0 +1,59 @@
+<div class="page-wrapper">
+
+  <div class="header">
+    <button class="back-btn" (click)="voltar()">
+      <mat-icon>arrow_back</mat-icon>
+      Voltar
+    </button>
+    @if (restaurante) {
+      <div class="rest-initials">{{ getIniciais(restaurante.nome) }}</div>
+      <p class="rest-nome">{{ restaurante.nome }}</p>
+      <p class="rest-endereco">{{ restaurante.endereco }}</p>
+      <div class="rest-tags">
+        <span class="tag">⭐ {{ restaurante.nota }}</span>
+        <span class="tag">30–45 min</span>
+      </div>
+    }
+  </div>
+
+  <div class="content">
+
+    <div class="categorias">
+      @for (cat of categorias; track cat) {
+        <button
+          class="cat-btn"
+          [class.ativo]="cat === categoriaSelecionada"
+          (click)="selecionarCategoria(cat)">
+          {{ cat }}
+        </button>
+      }
+    </div>
+
+    <div class="lista">
+      @for (produto of produtosFiltrados; track produto.idItem) {
+        <div class="item-card">
+          <div class="item-icon">{{ getIniciais(produto.nome) }}</div>
+          <div class="item-info">
+            <p class="item-nome">{{ produto.nome }}</p>
+            <p class="item-desc">{{ produto.descricao }}</p>
+            <p class="item-preco">R$ {{ produto.preco | number:'1.2-2' }}</p>
+          </div>
+          <button class="add-btn" (click)="adicionarAoCarrinho(produto)">+</button>
+        </div>
+      }
+    </div>
+
+    @if (carrinho.length > 0) {
+      <div class="carrinho-bar">
+        <div>
+          <p class="carrinho-info">{{ totalItens }} {{ totalItens === 1 ? 'item' : 'itens' }} no carrinho</p>
+          <p class="carrinho-total">R$ {{ totalCarrinho | number:'1.2-2' }}</p>
+        </div>
+        <button class="carrinho-btn" [routerLink]="['/cliente/carrinho']">Ver carrinho</button>
+      </div>
+    }
+
+  </div>
+
+  <app-bottom-nav/>
+</div>

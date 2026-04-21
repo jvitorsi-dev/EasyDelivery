@@ -1,0 +1,81 @@
+<div class="page-wrapper">
+
+  <div class="header">
+    <button class="back-btn" (click)="voltar()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="header-title">Meu carrinho</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <p class="section-title">Itens</p>
+      <div class="lista">
+        @for (item of itens; track item.idItem) {
+          <div class="item-card">
+            <div class="item-icon">{{ getIniciais(item.nome) }}</div>
+            <div class="item-info">
+              <p class="item-nome">{{ item.nome }}</p>
+              <p class="item-preco">{{ item.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</p>
+            </div>
+            <div class="qty-ctrl">
+              <button class="qty-btn" (click)="decrementar(item)">-</button>
+              <span class="qty-num">{{ item.quantidade }}</span>
+              <button class="qty-btn" (click)="incrementar(item)">+</button>
+            </div>
+            <button class="remover-btn" (click)="remover(item)">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+        }
+        @if (itens.length === 0) {
+          <div class="vazio">Seu carrinho está vazio.</div>
+        }
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="section-title">Cupom de desconto</p>
+      <div class="cupom-card">
+        <input class="cupom-input" [formControl]="cupomControl" placeholder="Digite seu cupom..." />
+        <button class="cupom-btn" (click)="aplicarCupom()">Aplicar</button>
+      </div>
+      @if (cupomMsg) {
+        <p class="cupom-msg" [class.valido]="cupomValido">{{ cupomMsg }}</p>
+      }
+    </div>
+
+    <div class="section">
+      <p class="section-title">Resumo</p>
+      <div class="resumo-card">
+        <div class="resumo-row">
+          <span class="resumo-label">Subtotal</span>
+          <span class="resumo-valor">{{ subtotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+        </div>
+        <div class="resumo-row">
+          <span class="resumo-label">Taxa de entrega</span>
+          <span class="resumo-valor">Grátis</span>
+        </div>
+        @if (desconto > 0) {
+          <div class="resumo-row">
+            <span class="resumo-label">Desconto</span>
+            <span class="resumo-valor desconto">- {{ valorDesconto | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+          </div>
+        }
+        <hr class="resumo-divider">
+        <div class="resumo-row">
+          <span class="resumo-total-label">Total</span>
+          <span class="resumo-total-valor">{{ total | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="finalizar-btn" [disabled]="itens.length === 0" (click)="finalizarPedido()">
+      Finalizar pedido
+    </button>
+
+  </div>
+
+  <app-bottom-nav/>
+</div>

@@ -8,6 +8,6 @@ namespace EasyDelivery.Application.Interfaces
 {
     public interface IAuthService
     {
-        public Task<TaskResult<string>> Login(LoginRequest login);
+        public Task<TaskResult<UsuarioResponse>> Login(LoginRequest login);
     }
 }

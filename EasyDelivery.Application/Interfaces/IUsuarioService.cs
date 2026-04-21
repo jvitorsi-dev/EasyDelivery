@@ -10,6 +10,6 @@ namespace EasyDelivery.Application.Interfaces
     {
         public Task<TaskResult<UsuarioResponse>> GetUsuarioById(int id);
         public Task<TaskResult<UsuarioResponse>> GetUsuarioByEmail(string email);
-        public Task<TaskResult<UsuarioResponse>> CreateUsuario(RegisterRequest usuario);
+        public Task<TaskResult<string>> CreateUsuario(RegisterRequest usuario);
     }
 }

@@ -1,0 +1,67 @@
+<div class="page-wrapper">
+  <mat-card class="register-card">
+
+    <mat-card-header>
+      <div class="logo-area">
+        <img src="img/logo-login-removebg-preview.png" alt="EasyDelivery" class="logo">
+        
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <h2 class="card-title">Criar conta</h2>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nome completo</mat-label>
+          <input matInput formControlName="nome" placeholder="Seu nome completo" />
+          <mat-error>{{ getError('nome') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="seu@email.com" />
+          <mat-error>{{ getError('email') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Senha</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="senha" />
+          <span matSuffix (click)="hidePassword = !hidePassword" class="toggle-senha">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </span>
+          <mat-error>{{ getError('senha') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Endereço</mat-label>
+          <input matInput formControlName="endereco" placeholder="Rua, número, bairro..." />
+          <mat-error>{{ getError('endereco') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Tipo de conta</mat-label>
+          <mat-select formControlName="role">
+            <mat-option *ngFor="let r of roles" [value]="r.value">
+              {{ r.label }}
+            </mat-option>
+          </mat-select>
+          <mat-error>{{ getError('role') }}</mat-error>
+        </mat-form-field>
+
+        <button mat-flat-button type="submit" class="submit-btn">
+          Cadastrar
+        </button>
+
+      </form>
+    </mat-card-content>
+
+    <mat-card-footer>
+      <p class="footer-text">
+        Já tem conta? <a routerLink="" class="link">Entrar</a>
+      </p>
+    </mat-card-footer>
+
+  </mat-card>
+</div>

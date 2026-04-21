@@ -1,0 +1,92 @@
+.page-wrapper {
+  min-height: 100vh;
+  background-color: #E24B4A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 380px;
+  border-radius: 20px !important;
+  background-color: #f7f7f5 !important;
+  padding: 1.5rem;
+}
+
+.logo-area {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 0.5rem;
+
+
+  .tagline {
+    font-size: 13px;
+    color: #888780;
+    margin: 4px 0 0;
+  }
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2C2C2A;
+  margin: 1rem 0 1.25rem;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.optional {
+  font-weight: 400;
+  color: #B4B2A9;
+  font-size: 11px;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 46px;
+  background-color: #E24B4A !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  margin-top: 0.5rem;
+}
+
+.footer-text {
+  text-align: center;
+  font-size: 13px;
+  color: #888780;
+  margin: 1.25rem 0 0;
+
+  .link {
+    color: #7F77DD;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.toggle-senha {
+  font-size: 12px;
+  color: #7F77DD;
+  cursor: pointer;
+  user-select: none;
+  padding-right: 4px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+::ng-deep .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  background-color: #ffffff !important;
+  border-radius: 10px !important;
+}

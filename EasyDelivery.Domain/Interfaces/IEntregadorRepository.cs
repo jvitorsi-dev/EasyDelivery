@@ -9,6 +9,7 @@ namespace EasyDelivery.Domain.Interfaces
     {
         public Task<List<Entregador>> GetAllEntregadores();
         public Task<Entregador?> GetEntregadorById(int? id);
+        public Task<Entregador?> GetEntregadorByUsuarioId(int userId);
         public Task AddEntregador(Entregador entregador);
         public Task UpdateEntregador(Entregador entregador);
         public Task<Entregador?> GetEntregadorByEmail(string email);

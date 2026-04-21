@@ -9,6 +9,7 @@ namespace EasyDelivery.Domain.Interfaces
     {
         public Task<Cliente?> GetCliente(int id);
         public Task AdicionarCliente(Cliente cliente);
+        public Task<Cliente?> GetClienteByUsuarioId(int userId);
         public Task<Cliente?> GetClienteByEmail(string email);
     }
 }

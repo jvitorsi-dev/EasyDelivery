@@ -1,5 +1,6 @@
 using EasyDelivery.Application.Interfaces;
 using EasyDelivery.Application.Services;
+using EasyDelivery.Domain.Entities;
 using EasyDelivery.Domain.Interfaces;
 using EasyDelivery.Infrastructure.Context;
 using EasyDelivery.Infrastructure.Repositories;
@@ -13,6 +14,9 @@ builder.Services.AddDbContext<EasyDeliveryContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+
+builder.Services.Configure<MercadoPagoSettings>(
+    builder.Configuration.GetSection("MercadoPago"));
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -68,6 +72,7 @@ builder.Services.AddScoped<IPagamentoService, PagamentoService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IRestauranteService, RestauranteService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<ValidacaoService>();
 builder.Services.AddScoped<TokenService>();
 
@@ -79,10 +84,11 @@ builder.Services.AddScoped<IPagamentoRepository, PagamentoRepository>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<IRestauranteRepository, RestauranteRepository>();
 builder.Services.AddScoped<IItemPedidoRepository, ItemPedidoRepository>();
+builder.Services.AddScoped<ICategoriaRestauranteRepository, CategoriaRestauranteRepository>();
+builder.Services.AddScoped<ICategoriaItemRestauranteRepository, CategoriaItemRestauranteRepository>();
 
 var app = builder.Build();
 
-app.UseCors("AllowAll");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -96,6 +102,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseCors("AllowAll");
 app.MapControllers();
 
 //using (var scope = app.Services.CreateScope())

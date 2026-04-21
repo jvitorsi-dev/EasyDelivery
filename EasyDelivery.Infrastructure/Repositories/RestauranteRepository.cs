@@ -25,6 +25,11 @@ namespace EasyDelivery.Infrastructure.Repositories
                 .FirstOrDefaultAsync(r => r.Nome == name || r.Email == email);
         }
 
+        public async Task<Restaurante?> GetRestauranteByUserId(int userId)
+        {
+            return await _context.Restaurantes.FirstOrDefaultAsync(r => r.UsuarioId == userId);
+        }
+
         public async Task<List<Restaurante>> GetAllRestaurantes()
         {
             return await _context.Restaurantes.ToListAsync();

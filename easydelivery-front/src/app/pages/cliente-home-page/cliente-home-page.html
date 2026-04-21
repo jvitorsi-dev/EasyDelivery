@@ -1,0 +1,70 @@
+<div class="page-wrapper">
+
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <p class="greeting">Olá, {{ usuario.nome }}!</p>
+        <div class="logo-inline">
+          <span class="logo-easy">easy</span><span class="logo-delivery">delivery</span>
+        </div>
+      </div>
+    </div>
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput [formControl]="searchControl" placeholder="Buscar restaurantes ou pratos..." />
+    </mat-form-field>
+  </div>
+
+  <div class="content">
+
+    <div class="endereco-card">
+      <div>
+        <p class="endereco-label">seu endereço</p>
+        <p class="endereco-valor">{{ usuario.endereco }}</p>
+      </div>
+      <mat-icon class="pin-icon">location_on</mat-icon>
+    </div>
+
+    <div class="categorias">
+      @for (cat of categoriasResponse; track cat.id) {
+        <button
+          [class.ativo]="cat.nome === categoriaSelecionada"
+          (click)="selecionarCategoria(cat.id)"
+          class="categoria-btn">
+          {{ cat.nome }}
+        </button>
+      }
+    </div>
+
+    <p class="section-title">Restaurantes em destaque</p>
+
+      <div class="lista">
+        @for(r of restaurantesFiltrados; track r.id){
+          <div
+            class="restaurante-card"
+            [routerLink]="['/cliente/restaurante', r.id]">
+            <div class="restaurante-icon">{{ getIniciais(r.nome) }}</div>
+            <div class="restaurante-info">
+              <p class="restaurante-nome">{{ r.nome }}</p>
+              <p class="restaurante-endereco">{{ r.endereco }}</p>
+              <div class="restaurante-tags">
+                <span class="tag-avaliacao">⭐ {{r.nota}}</span>
+                <span class="tag-tempo">30–45 min</span>
+              </div>
+            </div>
+            <mat-icon class="chevron">chevron_right</mat-icon>
+          </div>
+        }
+      
+      @if(restaurantesFiltrados.length === 0){
+        <div class="vazio">
+          <p>Nenhum restaurante encontrado.</p>
+        </div>
+      }      
+    </div>
+
+  </div>
+
+  <app-bottom-nav/>
+
+</div>

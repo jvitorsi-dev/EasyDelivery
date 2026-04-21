@@ -1,0 +1,85 @@
+<div class="page-wrapper">
+
+  <div class="header">
+    <p class="header-title">Meus pedidos</p>
+    <p class="header-sub">Acompanhe seus pedidos</p>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <p class="section-title">Em andamento</p>
+      <div class="lista">
+        @if (pedidosAtivos.length === 0) {
+          <div class="vazio">Nenhum pedido em andamento.</div>
+        }
+        @for (pedido of pedidosAtivos; track pedido.id) {
+          <div class="pedido-card">
+            <div class="pedido-header">
+              <div class="rest-icon">{{ getIniciais(pedido.restaurante.nome) }}</div>
+              <div class="pedido-header-info">
+                <p class="pedido-rest">{{ pedido.restaurante.nome }}</p>
+                <p class="pedido-data">{{ pedido.dataCriacao | date:'dd/MM/yyyy, HH:mm' }}</p>
+              </div>
+              <span class="status-badge status-{{ pedido.status }}">
+                {{ statusLabel[pedido.status] }}
+              </span>
+            </div>
+            <hr class="pedido-divider">
+            <div class="pedido-itens">
+              @for (item of pedido.itens; track item.id) {
+                <div class="pedido-item-row">
+                  <span>{{ item.quantidade }}x {{ item.nome }}</span>
+                  <span>{{ item.preco * item.quantidade | currency:'BRL':'symbol':'1.2-2' }}</span>
+                </div>
+              }
+              <div class="pedido-total-row">
+                <span class="pedido-total-label">Total</span>
+                <span class="pedido-total-valor">{{ pedido.valorTotal | currency:'BRL':'symbol':'1.2-2' }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="section-title">Histórico</p>
+      <div class="lista">
+        @if (pedidosHistorico.length === 0) {
+          <div class="vazio">Nenhum pedido no histórico.</div>
+        }
+        @for (pedido of pedidosHistorico; track pedido.id) {
+          <div class="pedido-card">
+            <div class="pedido-header">
+              <div class="rest-icon">{{ getIniciais(pedido.restaurante.nome) }}</div>
+              <div class="pedido-header-info">
+                <p class="pedido-rest">{{ pedido.restaurante.nome }}</p>
+                <p class="pedido-data">{{ pedido.dataCriacao | date:'dd/MM/yyyy, HH:mm' }}</p>
+              </div>
+              <span class="status-badge status-{{ pedido.status }}">
+                {{ statusLabel[pedido.status] }}
+              </span>
+            </div>
+            <hr class="pedido-divider">
+            <div class="pedido-itens">
+              @for (item of pedido.itens; track item.id) {
+                <div class="pedido-item-row">
+                  <span>{{ item.quantidade }}x {{ item.nome }}</span>
+                  <span>{{ item.preco * item.quantidade | currency:'BRL':'symbol':'1.2-2' }}</span>
+                </div>
+              }
+              <div class="pedido-total-row">
+                <span class="pedido-total-label">Total</span>
+                <span class="pedido-total-valor">{{ pedido.valorTotal | currency:'BRL':'symbol':'1.2-2' }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+
+  <app-bottom-nav />
+</div>

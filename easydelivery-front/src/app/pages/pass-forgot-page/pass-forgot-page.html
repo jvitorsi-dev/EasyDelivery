@@ -1,0 +1,57 @@
+<div class="page-wrapper">
+  <mat-card class="forgot-card">
+
+    <mat-card-header>
+      <div class="logo-area">
+        <img src="img/logo-login-removebg-preview.png" alt="EasyDelivery" class="logo">
+        
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+
+      @if(!enviado){
+        <div class="info-box">
+          <span class="info-icon">!</span>
+          <p>Informe o e-mail da sua conta e enviaremos um link para redefinir sua senha.</p>
+        </div>
+      }
+      @else{
+        <div class="success-box">
+          <span class="success-icon">✓</span>
+          <p>Link enviado! Verifique sua caixa de entrada e siga as instruções.</p>
+        </div>
+      }   
+
+      <h2 class="card-title">Recuperar senha</h2>
+
+      <form [formGroup]="forgotForm" (ngSubmit)="onSubmit()">
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="seu@email.com" />
+          <mat-error>{{ getError('email') }}</mat-error>
+        </mat-form-field>
+
+        <button mat-flat-button type="submit" class="submit-btn">
+          Enviar link de recuperação
+        </button>
+
+      </form>
+
+    </mat-card-content>
+
+    <mat-card-footer>
+      <p class="footer-text">
+        Lembrou a senha? <a routerLink="" class="link">Voltar ao login</a>
+      </p>
+    </mat-card-footer>
+
+  </mat-card>
+</div>
+
+@if(loading){
+    <div class="div-spinner">
+        <app-spinner-component></app-spinner-component>
+    </div>
+}

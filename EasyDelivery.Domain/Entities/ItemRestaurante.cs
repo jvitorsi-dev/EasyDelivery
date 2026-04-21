@@ -11,5 +11,9 @@ namespace EasyDelivery.Domain.Entities
         public string Nome { get; set; } = string.Empty;
         public int QuantidadeEstoque { get; set; }
         public decimal Preco { get; set; }
+        public int? CategoriaId { get; set; }
+        public string? Descricao { get; set; }
+
+        public CategoriaItensRestaurante CategoriaItensRestaurante { get; set; } = default!;
     }
 }

@@ -19,7 +19,7 @@ namespace EasyDelivery.Controllers
             _pedidoService = pedidoService;
         }
 
-        [HttpPost]
+        [HttpPost("criar-pedido")]
         public async Task<ActionResult> CriarPedido([FromBody] PedidoRequest pedidoRequest)
         {
             ValidacaoService validador = new ValidacaoService();
@@ -39,7 +39,7 @@ namespace EasyDelivery.Controllers
             return Ok(resultado);
         }
 
-        [HttpPut("/editar-pedido")]
+        [HttpPut("editar-pedido")]
         public async Task<ActionResult> EditarPedido(int id, [FromBody] PedidoRequest pedidoRequest)
         {
             if (id != pedidoRequest.Id)
@@ -70,7 +70,18 @@ namespace EasyDelivery.Controllers
             return Ok(resultado);
         }
 
-        [HttpGet("/cancelar/{id}")]
+        [HttpGet("pedidos-cliente/{clienteId}")]
+        public async Task<IActionResult> GetPedidoByClienteId(int clienteId)
+        {
+            var resultado = await _pedidoService.GetPedidosPorCliente(clienteId);
+            if (!resultado.Success)
+            {
+                return NotFound(resultado.Message);
+            }
+            return Ok(resultado);
+        }
+
+        [HttpGet("cancelar/{id}")]
         public async Task<IActionResult> CancelarPedido(int id)
         {
             if (id <= 0)

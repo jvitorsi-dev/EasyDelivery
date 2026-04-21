@@ -1,4 +1,5 @@
 ﻿using EasyDelivery.Application.DTOs.Usuario;
+using EasyDelivery.Application.Interfaces;
 using EasyDelivery.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,21 +11,34 @@ namespace EasyDelivery.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
+        private readonly IUsuarioService _usuarioService;
 
-        public AuthController(AuthService authService)
+        public AuthController(IAuthService authService,
+            IUsuarioService usuarioService)
         {
             _authService = authService;
+            _usuarioService = usuarioService;
         }
 
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var result = await _authService.Login(request);
-            if (!result.Success)
-                return Unauthorized(result.Message);
+            var resultLogin = await _authService.Login(request);
+            if (!resultLogin.Success)
+                return Unauthorized(resultLogin.Message);
 
-            return Ok(new { Token = result.Data });
+            var resultUsuario = await _usuarioService.GetUsuarioByEmail(request.Email);
+            if (!resultUsuario.Success)
+                return BadRequest(resultUsuario.Message);
+
+            var loginResponse = new LoginResponse
+            {
+                Usuario = resultUsuario.Data,
+                Token = resultLogin.Message
+            };
+
+            return Ok(loginResponse);
         }
     }
 }

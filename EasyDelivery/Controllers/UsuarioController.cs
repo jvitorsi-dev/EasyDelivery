@@ -28,7 +28,7 @@ namespace EasyDelivery.Controllers
             return Ok(result);
         }
 
-        [HttpGet("/email/{email}")]
+        [HttpGet("email/{email}")]
         public async Task<IActionResult> GetUsuarioByEmail(string email)
         {
             var result = await _usuarioService.GetUsuarioByEmail(email);
@@ -38,7 +38,7 @@ namespace EasyDelivery.Controllers
             return Ok(result);
         }
 
-        [HttpPost("/criar")]
+        [HttpPost("criar")]
         public async Task<IActionResult> CreateUsuario([FromBody] RegisterRequest request)
         {
             ValidacaoService validador = new ValidacaoService();
@@ -47,9 +47,9 @@ namespace EasyDelivery.Controllers
 
             var result = await _usuarioService.CreateUsuario(request);
             if (!result.Success)
-                return BadRequest(result.Message);
+                return BadRequest(result);
 
-            return Ok(result);
+            return Ok();
         }
     }
 }

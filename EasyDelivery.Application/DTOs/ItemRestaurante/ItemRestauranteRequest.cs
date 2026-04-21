@@ -11,5 +11,7 @@ namespace EasyDelivery.Application.DTOs.ItemRestaurante
         public int Quantidade { get; set; }
         public string Nome { get; set; } = string.Empty;
         public decimal Preco { get; set; }
+        public int? CategoriaId { get; set; }
+        public string? Descricao { get; set; }
     }
 }

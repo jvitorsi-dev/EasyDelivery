@@ -22,6 +22,8 @@ namespace EasyDelivery.Infrastructure.Context
         public DbSet<Restaurante> Restaurantes { get; set; }
         public DbSet<Entregador> Entregadores { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<CategoriaItemRestaurante> CategoriasRestaurantes { get; set; }
+        public DbSet<CategoriaItensRestaurante> CategoriasItensRestaurante { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -140,11 +142,24 @@ namespace EasyDelivery.Infrastructure.Context
                 entity.HasIndex(u => u.Email)
                     .IsUnique();
 
+                entity.HasOne(r => r.Categoria)
+                    .WithMany(c => c.Restaurantes)
+                    .HasForeignKey(r => r.CategoriaId);
+
                 // Restaurante → Itens (1:N)
                 entity.HasMany(p => p.Itens)
                       .WithOne()
                       .HasForeignKey(i => i.RestauranteId)
                       .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<CategoriaItemRestaurante>(entity =>
+            {
+                entity.HasKey(c => c.Id);
+
+                entity.Property(c => c.Nome)
+                    .HasMaxLength(150)
+                    .IsRequired();
             });
 
 
@@ -191,7 +206,34 @@ namespace EasyDelivery.Infrastructure.Context
                 // Enum como string (RECOMENDADO)
                 entity.Property(u => u.Role)
                     .HasConversion<string>()
-                    .IsRequired();                
+                    .IsRequired();
+
+            });
+
+            // ==============================
+            //ITENSRESTAURANTE
+            //===============================
+            modelBuilder.Entity<ItemRestaurante>(entity =>
+            {
+                entity.HasKey(i => i.Id);
+
+                entity.Property(i => i.RestauranteId)
+                    .IsRequired();
+
+                entity.Property(u => u.Nome)
+                    .IsRequired()
+                    .HasMaxLength(150);
+
+                entity.Property(i => i.QuantidadeEstoque)
+                    .IsRequired();
+
+                entity.Property(p => p.Preco)
+                    .IsRequired()
+                    .HasColumnType("decimal(10,2)");
+
+                entity.HasOne(r => r.CategoriaItensRestaurante)
+                    .WithMany(c => c.ItemRestaurante)
+                    .HasForeignKey(r => r.CategoriaId);
             });
         }
     }

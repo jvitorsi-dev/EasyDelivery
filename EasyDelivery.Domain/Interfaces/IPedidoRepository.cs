@@ -14,5 +14,6 @@ namespace EasyDelivery.Domain.Interfaces
         public Task EditarPedido(Pedido pedido);
         public Task<List<Pedido>> ObterPorClienteStatus(int clienteId, StatusPedido status = default);
         public Task<List<Pedido>> ObterPorRestauranteStatus(int restauranteId, StatusPedido status = default);
+        public Task SaveChangesPedido();
     }
 }

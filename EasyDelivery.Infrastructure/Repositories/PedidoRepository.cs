@@ -18,18 +18,18 @@ namespace EasyDelivery.Infrastructure.Repositories
         public async Task Adicionar(Pedido pedido)
         {
             await _context.Pedidos.AddAsync(pedido);
-            await _context.SaveChangesAsync();
+            await SaveChangesPedido();
         }
 
         public async Task<Pedido?> ObterPorId(int id)
         {
-            return await _context.Pedidos.FindAsync(id);
+            return await _context.Pedidos.FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<List<Pedido>> ObterPorClienteStatus(int clienteId, StatusPedido status = default)
         {
             var pedidos = new List<Pedido>();
-            if(status != default)
+            if (status != default)
             {
                 pedidos = await _context.Pedidos
                     .Where(p => p.ClienteId == clienteId && p.Status == status)
@@ -37,7 +37,7 @@ namespace EasyDelivery.Infrastructure.Repositories
             }
             else
             {
-                await _context.Pedidos
+                pedidos = await _context.Pedidos
                 .Where(p => p.ClienteId == clienteId)
                 .ToListAsync();
             }
@@ -70,8 +70,13 @@ namespace EasyDelivery.Infrastructure.Repositories
             if (pedido != null)
             {
                 pedido.Status = novoStatus;
-                await _context.SaveChangesAsync();
+                await SaveChangesPedido();
             }
+        }
+
+        public async Task SaveChangesPedido()
+        {
+            await _context.SaveChangesAsync();
         }
 
         public async Task EditarPedido(Pedido pedido)
@@ -82,9 +87,8 @@ namespace EasyDelivery.Infrastructure.Repositories
                 _context.Entry(pedidoExistente).CurrentValues.SetValues(pedido);
 
                 // Atualiza os itens do pedido
-                await _context.SaveChangesAsync();
+                await SaveChangesPedido();
             }
         }
-
     }
 }

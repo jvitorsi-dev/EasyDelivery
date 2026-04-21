@@ -1,4 +1,5 @@
 ﻿using EasyDelivery.Domain.Entities;
+using EasyDelivery.Domain.Entities.Enums;
 using EasyDelivery.Domain.Interfaces;
 using EasyDelivery.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -33,5 +34,6 @@ namespace EasyDelivery.Infrastructure.Repositories
             return await _context.Usuarios
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
+
     }
 }

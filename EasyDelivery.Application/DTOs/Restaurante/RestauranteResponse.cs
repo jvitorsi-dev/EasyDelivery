@@ -1,8 +1,5 @@
 ﻿using EasyDelivery.Application.DTOs.ItemRestaurante;
-using EasyDelivery.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using EasyDelivery.Application.DTOs.Categoria;
 
 namespace EasyDelivery.Application.DTOs.Restaurante
 {
@@ -12,6 +9,10 @@ namespace EasyDelivery.Application.DTOs.Restaurante
         public string Nome { get; set; } = string.Empty;
         public string Endereco { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
+        public decimal? Nota { get; set; }
+        public int CategoriaId { get; set; }
+
+        public CategoriaRestauranteResponse Categoria { get; set; } = default!;
         public List<ItemRestauranteResponse> Itens { get; set; } = default!;
     }
 }

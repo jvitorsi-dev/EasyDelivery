@@ -18,13 +18,15 @@ namespace EasyDelivery.Application.Services
         private readonly IItemRestauranteRepository _itemRestauranteRepository;
         private readonly IItemPedidoRepository _itemPedidoRepository;
         private readonly IEntregadorRepository _entregadorRepository;
+        private readonly IPagamentoService _pagamentoService;
 
         public PedidoService(IPedidoRepository pedidoRepository,
             IClienteRepository clienteRepository,
             IRestauranteRepository restauranteRepository,
             IItemRestauranteRepository itemRestauranteRepository,
             IItemPedidoRepository itemPedidoRepository,
-            IEntregadorRepository entregadorRepository)
+            IEntregadorRepository entregadorRepository,
+            IPagamentoService pagamentoService)
         {
             _pedidoRepository = pedidoRepository;
             _clienteRepository = clienteRepository;
@@ -32,27 +34,32 @@ namespace EasyDelivery.Application.Services
             _itemRestauranteRepository = itemRestauranteRepository;
             _itemPedidoRepository = itemPedidoRepository;
             _entregadorRepository = entregadorRepository;
+            _pagamentoService = pagamentoService;
         }
 
         public async Task<TaskResult<PedidoRequest>> ValidarPedido(PedidoRequest pedidoRequest)
         {
             // Validações
-            var pedido = await _pedidoRepository.ObterPorId(pedidoRequest.Id);
-            if (pedido == null) 
-                return TaskResult<PedidoRequest>.Fail("Pedido não encontrado.");
+            if(pedidoRequest.Id > 0)
+            {
+                var pedido = await _pedidoRepository.ObterPorId(pedidoRequest.Id);
+                if (pedido == null)
+                    return TaskResult<PedidoRequest>.Fail("Pedido não encontrado.");
+            }
+            
 
-            var cliente = await _clienteRepository.GetCliente(pedido.ClienteId);
+            var cliente = await _clienteRepository.GetCliente(pedidoRequest.ClienteId);
             if (cliente == null)
                 return TaskResult<PedidoRequest>.Fail("Cliente não encontrado.");
 
-            var restaurante = await _restauranteRepository.GetRestaurante(pedido.RestauranteId);
+            var restaurante = await _restauranteRepository.GetRestaurante(pedidoRequest.RestauranteId);
             if (restaurante == null)
                 return TaskResult<PedidoRequest>.Fail("Restaurante não encontrado.");
 
             var itensRestaurante = await _itemRestauranteRepository
-                .GetItemRestaurante(pedido.RestauranteId);
+                .GetItemRestaurante(pedidoRequest.RestauranteId);
 
-            foreach (var item in pedido.Itens)
+            foreach (var item in pedidoRequest.Itens)
             {
                 var itemRestaurante = itensRestaurante
                     .FirstOrDefault(i => i.Id == item.ItemRestauranteId);
@@ -90,7 +97,6 @@ namespace EasyDelivery.Application.Services
 
                     return new ItemPedido
                     {
-                        Id = i.Id,
                         Quantidade = i.Quantidade,
                         Preco = itemRestaurante.Preco,
                         ItemRestauranteId = i.ItemRestauranteId
@@ -109,6 +115,9 @@ namespace EasyDelivery.Application.Services
             try
             {
                 await _pedidoRepository.Adicionar(pedido);
+                //TESTE
+                var preferenceId = await _pagamentoService.CriarPreferenciaMercadoPago(pedido);
+
                 return TaskResult<PedidoResponse>.Ok(new PedidoResponse
                 {
                     Id = pedido.Id,
@@ -123,7 +132,8 @@ namespace EasyDelivery.Application.Services
                         Nome = itensRestaurante.First(ir => ir.Id == i.ItemRestauranteId).Nome
                     }).ToList(),
                     Status = pedido.Status,
-                    DataCriacao = pedido.DataCriacao
+                    DataCriacao = pedido.DataCriacao,
+                    PreferenceId = preferenceId,
                 }, "Pedido criado com sucesso.");
             }
             catch
@@ -332,7 +342,47 @@ namespace EasyDelivery.Application.Services
         {
             try
             {
+                var restaurantes = new List<Restaurante>();
+                var itensPedido = new List<ItemPedido>();
                 var pedidos = await _pedidoRepository.ObterPorClienteStatus(clienteId, status);
+                foreach(var pedido in pedidos)
+                {
+                    var restaurante = await _restauranteRepository.GetRestaurante(pedido.RestauranteId);
+                    if(restaurante == null)
+                        restaurantes.Add(new Restaurante
+                        {
+                            Id = 0,
+                            Nome = "Restaurante não encontrado",
+                            Endereco = "",
+                            Email = ""
+                        });
+                    else
+                        restaurantes.Add(restaurante);
+
+                    var itens = await _itemPedidoRepository.GetItensPedido(pedido.Id);
+                    var itensRestaurante = await _itemRestauranteRepository
+                        .GetItensRestauranteByIds(itens.Select(i => i.ItemRestauranteId).ToList());
+                    itensPedido.AddRange(itens.Select(i =>
+                    {
+                        var itemRestaurante = itensRestaurante.First(ir => ir.Id == i.ItemRestauranteId);
+                        return itemRestaurante != null ? new ItemPedido
+                        {
+                            Id = i.Id,
+                            PedidoId = i.PedidoId,
+                            Quantidade = i.Quantidade,
+                            Preco = i.Preco,
+                            Nome = itemRestaurante.Nome
+                        } : new ItemPedido
+                        {
+                            Id = i.Id,
+                            PedidoId = i.PedidoId,
+                            Quantidade = i.Quantidade,
+                            Preco = i.Preco,
+                            Nome = "Item não encontrado"
+                        };
+                    }).ToList());
+                }
+
                 var response = pedidos.Select(p => new PedidoResponse
                 {
                     Id = p.Id,
@@ -341,12 +391,20 @@ namespace EasyDelivery.Application.Services
                     EntregadorId = p.EntregadorId,
                     HoraEntrega = p.HoraEntrega,
                     HoraSaida = p.HoraSaida,
-                    Itens = p.Itens.Select(i => new ItemPedidoResponse
+                    Itens = itensPedido.Where(i => i.PedidoId == p.Id).Select(i => new ItemPedidoResponse
                     {
                         Id = i.Id,
                         Quantidade = i.Quantidade,
-                        Preco = i.Preco
+                        Preco = i.Preco,
+                        Nome = i.Nome
                     }).ToList(),
+                    Restaurante = restaurantes.Where(r => r.Id == p.RestauranteId).Select(r => new RestauranteResponse
+                    {
+                        Id = r.Id,
+                        Nome = r.Nome,
+                        Endereco = r.Endereco,
+                        Email = r.Email
+                    }).FirstOrDefault()!,
                     Status = p.Status,
                     DataCriacao = p.DataCriacao
                 }).ToList();
@@ -355,6 +413,20 @@ namespace EasyDelivery.Application.Services
             catch
             {
                 return TaskResult<List<PedidoResponse>>.Fail("Erro ao obter os pedidos.");
+            }
+        }
+
+        public async Task<TaskResult<string>> SaveChangesPedido()
+        {
+            try
+            {
+                await _pedidoRepository.SaveChangesPedido();
+
+                return TaskResult<string>.Ok("Pedido Salvo!");
+            }
+            catch
+            {
+                return TaskResult<string>.Fail("Houve um erro ao salvo o pedido");
             }
         }
     }

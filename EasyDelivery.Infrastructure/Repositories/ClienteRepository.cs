@@ -24,6 +24,11 @@ namespace EasyDelivery.Infrastructure.Repositories
             return await _context.Clientes.FirstOrDefaultAsync(c => c.Email == email);
         }
 
+        public async Task<Cliente?> GetClienteByUsuarioId(int userId)
+        {
+            return await _context.Clientes.FirstOrDefaultAsync(c => c.UsuarioId == userId);
+        }
+
         public async Task AdicionarCliente(Cliente cliente)
         {
             _context.Clientes.Add(cliente);

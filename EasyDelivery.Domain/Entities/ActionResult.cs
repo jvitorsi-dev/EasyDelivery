@@ -17,9 +17,9 @@ namespace EasyDelivery.Domain.Entities
             Message = message;
         }
 
-        public static TaskResult<T> Ok(T data, string message = "")
+        public static TaskResult<T> Ok(T? data, string message = "")
         {
-            return new TaskResult<T>(true, data, message);
+            return new TaskResult<T>(true, data!, message);
         }
 
         public static TaskResult<T> Fail(string message)

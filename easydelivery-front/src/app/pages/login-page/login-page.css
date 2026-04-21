@@ -1,0 +1,103 @@
+.container{
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background: #E24B4A;
+}
+
+mat-card{
+    padding:30px;
+    background: rgb(238, 238, 238);
+}
+
+mat-card-header{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+mat-form-field{
+    width: 300px;
+    border-radius: 50px;
+}
+
+::ng-deep .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  background-color: #ffffff;
+}
+
+mat-card-action{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+  background-color: #E24B4A !important;
+  color: #ffffff !important;
+  border:none;
+  width: 310px;
+  border-radius: 12px !important;
+}
+
+mat-hint{
+    text-align: center;
+}
+
+.erro-login{
+    margin-left:15px;
+}
+
+.footer-text {
+  text-align: center;
+  font-size: 13px;
+  color: #888780;
+  margin: 1.25rem 0 0;
+
+  .link {
+    color: #7F77DD;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}
+
+.div-esqueci{
+    font-size: 13px;
+    text-decoration: none;  
+    font-weight: 600;
+    width:90%;
+    text-align: end;
+}
+
+.div-esqueci p a{
+    text-decoration: none;    
+    color: #7F77DD !important;
+
+    &:hover{
+        text-decoration: underline;
+    }
+}
+
+.div-spinner{
+    position:fixed;
+    top:0;
+    width:100%;
+    height: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.5);
+}

@@ -1,0 +1,148 @@
+.page-wrapper {
+  min-height: 100vh;
+  background-color: #E24B4A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.forgot-card {
+  width: 100%;
+  max-width: 380px;
+  border-radius: 20px !important;
+  background-color: #f7f7f5 !important;
+  padding: 1.5rem;
+}
+
+.logo-area {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 0.5rem;
+
+  .tagline {
+    font-size: 13px;
+    color: #888780;
+    margin: 4px 0 0;
+  }
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2C2C2A;
+  margin: 1rem 0 1.25rem;
+}
+
+.info-box {
+  background: #FFF3E8;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+
+  p {
+    font-size: 13px;
+    color: #993C1D;
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+.success-box {
+  background: #EAF3DE;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+
+  p {
+    font-size: 13px;
+    color: #3B6D11;
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+.info-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #E24B4A;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.success-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #639922;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 46px;
+  background-color: #E24B4A !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  margin-top: 0.5rem;
+}
+
+.footer-text {
+  text-align: center;
+  font-size: 13px;
+  color: #888780;
+  margin: 1.25rem 0 0;
+
+  .link {
+    color: #7F77DD;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+::ng-deep .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  background-color: #ffffff !important;
+  border-radius: 10px !important;
+}
+
+.div-spinner{
+    position:fixed;
+    top:0;
+    width:100%;
+    height: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.5);
+}

@@ -24,6 +24,11 @@ namespace EasyDelivery.Infrastructure.Repositories
             return await _context.Entregadores.FindAsync(id);
         }
 
+        public async Task<Entregador?> GetEntregadorByUsuarioId(int userId)
+        {
+            return await _context.Entregadores.FirstOrDefaultAsync(e => e.UsuarioId == userId);
+        }
+
         public async Task<Entregador?> GetEntregadorByEmail(string email)
         {
             return await _context.Entregadores.FirstOrDefaultAsync(e => e.Email == email);

@@ -1,0 +1,141 @@
+.page-wrapper {
+  min-height: 100vh;
+  background: #f7f7f5;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 70px;
+}
+
+.header {
+  background: #E24B4A;
+  padding: 1.5rem 1.5rem 3rem;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.greeting {
+  color: rgba(255,255,255,0.75);
+  font-size: 13px;
+  margin: 0 0 2px;
+}
+
+.logo-inline { display: inline-flex; align-items: center; }
+
+.logo-easy {
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffffff;
+  font-family: Arial Black, sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.logo-delivery {
+  font-size: 22px;
+  font-weight: 900;
+  color: #FAC775;
+  font-family: Arial Black, sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.search-field {
+  width: 100%;
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    background: #ffffff !important;
+    border-radius: 12px !important;
+  }
+  ::ng-deep .mat-mdc-form-field-subscript-wrapper { display: none; }
+}
+
+.content {
+  padding: 0 1.5rem;
+  margin-top: -1.5rem;
+  flex: 1;
+}
+
+.endereco-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  border: 0.5px solid #e0e0dc;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.endereco-label { font-size: 12px; color: #888780; margin: 0 0 2px; }
+.endereco-valor { font-size: 14px; font-weight: 600; color: #2C2C2A; margin: 0; }
+.pin-icon { color: #E24B4A; font-size: 20px; }
+
+.categorias {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.categoria-btn {
+  background: #ffffff;
+  color: #5F5E5A;
+  border: 0.5px solid #e0e0dc;
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+  &.ativo {
+    background: #E24B4A;
+    color: #ffffff;
+    border-color: #E24B4A;
+    font-weight: 600;
+  }
+}
+
+.section-title { font-size: 16px; font-weight: 700; color: #2C2C2A; margin: 0 0 1rem; }
+
+.lista { display: flex; flex-direction: column; gap: 12px; padding-bottom: 1rem; }
+
+.restaurante-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 0.5px solid #e0e0dc;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  &:hover { border-color: #E24B4A; }
+}
+
+.restaurante-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: #FAECE7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #993C1D;
+  flex-shrink: 0;
+}
+
+.restaurante-info { flex: 1; min-width: 0; }
+.restaurante-nome { font-size: 15px; font-weight: 700; color: #2C2C2A; margin: 0 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.restaurante-endereco { font-size: 12px; color: #888780; margin: 0 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.restaurante-tags { display: flex; gap: 8px; align-items: center; }
+.tag-avaliacao { background: #EAF3DE; color: #3B6D11; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+.tag-tempo { font-size: 11px; color: #888780; }
+.chevron { color: #B4B2A9; font-size: 20px; }
+.vazio { text-align: center; color: #888780; padding: 2rem 0; }
+.loading { text-align: center; color: #888780; padding: 2rem 0; }

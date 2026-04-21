@@ -15,5 +15,6 @@ namespace EasyDelivery.Application.Interfaces
         public Task<TaskResult<PedidoResponse>> ObterPedidoPorId(int id);
         public Task<TaskResult<List<PedidoResponse>>> GetPedidosPorRestaurante(int restauranteId, StatusPedido status = default);
         public Task<TaskResult<List<PedidoResponse>>> GetPedidosPorCliente(int clienteId, StatusPedido status = default);
+        public Task<TaskResult<string>> SaveChangesPedido();
     }
 }

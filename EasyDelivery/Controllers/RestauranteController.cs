@@ -140,5 +140,7 @@ namespace EasyDelivery.Controllers
 
             return Ok(result);
         }
+
+        
     }
 }

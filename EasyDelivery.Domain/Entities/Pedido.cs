@@ -12,6 +12,7 @@ namespace EasyDelivery.Domain.Entities
         public int RestauranteId { get; set; }
         public int? EntregadorId { get; set; }
         public decimal ValorTotal { get; set; }
+        public string? PaymentId { get; set; }
 
         public StatusPedido Status { get; set; }
         public DateTime DataCriacao { get; set; }
@@ -19,5 +20,5 @@ namespace EasyDelivery.Domain.Entities
         public DateTime? HoraEntrega { get; set; }
 
         public List<ItemPedido> Itens { get; set; } = new List<ItemPedido>();
-    }
+   }
 }

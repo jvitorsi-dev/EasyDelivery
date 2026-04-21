@@ -1,0 +1,173 @@
+/* ───── Page ───── */
+.page-wrapper {
+  background: #F0EDE8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ───── Header ───── */
+.header {
+  background: #C0392B;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+}
+
+.header-sub {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 2px;
+}
+
+/* ───── Content ───── */
+.content {
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-bottom: 6rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+
+/* ───── Lista ───── */
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ───── Card do pedido ───── */
+.pedido-card {
+  background: white;
+  border: 0.5px solid #e0ddd8;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pedido-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rest-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #fce8e4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: #C0392B;
+  flex-shrink: 0;
+}
+
+.pedido-header-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pedido-rest {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.pedido-data {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 1px;
+}
+
+/* ───── Status badges ───── */
+/* ───── Status badges ───── */
+.status-badge {
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.status-0 { background: #e8f5e9; color: #2e7d32; }   /* Criado */
+.status-1 { background: #FFF3CD; color: #856404; }   /* Pagamento pendente */
+.status-2 { background: #e8f5e9; color: #2e7d32; }   /* Pago */
+.status-3 { background: #FFF3CD; color: #856404; }   /* Em preparação */
+.status-4 { background: #FFF3CD; color: #856404; }   /* Aguardando entregador */
+.status-5 { background: #CCE5FF; color: #004085; }   /* Em entrega */
+.status-6 { background: #e8f5e9; color: #2e7d32; }   /* Entregue */
+.status-7 { background: #F8D7DA; color: #721C24; }   /* Cancelado */
+
+/* ───── Itens ───── */
+.pedido-divider {
+  border: none;
+  border-top: 0.5px solid #f0ede8;
+}
+
+.pedido-itens {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pedido-item-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #666;
+}
+
+.pedido-total-row {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 0.5px solid #f0ede8;
+  margin-top: 4px;
+}
+
+.pedido-total-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.pedido-total-valor {
+  font-size: 13px;
+  font-weight: 500;
+  color: #C0392B;
+}
+
+/* ───── Vazio ───── */
+.vazio {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: #aaa;
+  font-size: 13px;
+  background: white;
+  border-radius: 14px;
+  border: 0.5px solid #e0ddd8;
+}

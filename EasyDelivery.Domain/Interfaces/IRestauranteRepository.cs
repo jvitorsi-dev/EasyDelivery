@@ -10,6 +10,7 @@ namespace EasyDelivery.Domain.Interfaces
         public Task<Restaurante?> GetRestaurante(int id);
         public Task<Restaurante?> GetRestauranteByNameEmail(string name, string email);
         public Task<List<Restaurante>> GetAllRestaurantes();
+        public Task<Restaurante?> GetRestauranteByUserId(int userId);
         public Task<List<Restaurante>> SearchRestaurantes(string nome);
         public Task AddRestaurante(Restaurante restaurante);
         public Task UpdateRestaurante(Restaurante restaurante);
