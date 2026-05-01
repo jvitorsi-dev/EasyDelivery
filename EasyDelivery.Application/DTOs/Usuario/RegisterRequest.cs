@@ -12,6 +12,7 @@ namespace EasyDelivery.Application.DTOs.Usuario
         public string? Endereco { get; set; } 
         public string Nome { get; set; } = string.Empty;
         public int? UsuarioId { get; set; }
+        public int? CategoriaId { get; set; }
         public UserRole Role { get; set; }
     }
 }

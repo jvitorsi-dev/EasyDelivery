@@ -1,15 +1,14 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormGroupDirective, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule, MatAnchor } from '@angular/material/button';
-import { MatCardModule, MatCard, MatCardHeader, MatCardTitle, MatCardContent, MatCardActions } from '@angular/material/card';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { MatCardModule, MatCard, MatCardHeader, MatCardContent, MatCardActions } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../services/auth-service';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import { SpinnerComponent } from '../../componentes/spinner-component/spinner-component';
-import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
+import { UserRole } from '../../models/enums/userRole';
 
 @Component({
   selector: 'app-login-page',
@@ -63,7 +62,14 @@ export class LoginPage {
           next: (response) => {            
             this.authService.setToken(response.token);
             this.authService.setUsuario(response.usuario);
-            this.router.navigateByUrl('cliente/home');
+
+            if(response.usuario.role == UserRole.Cliente){              
+              this.router.navigateByUrl('cliente/home');
+            }
+
+            if(response.usuario.role == UserRole.Restaurante){
+              this.router.navigateByUrl('restaurante/home');
+            }
           },
           error: (err) => {
             this.openSnackBar(err.error, 'Ok');    

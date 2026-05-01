@@ -176,38 +176,47 @@ namespace EasyDelivery.Application.Services
 
         public async Task AddByRole(RegisterRequest request)
         {
-            switch(request.Role)
+            try
             {
-                case UserRole.Cliente:
-                    var cliente = new Cliente
-                    {
-                        Email = request.Email,
-                        Nome = request.Nome,
-                        Endereco = request.Endereco!,
-                        UsuarioId = request.UsuarioId!.Value
-                    };
-                    await _clienteRepository.AdicionarCliente(cliente);
-                    break;
-                case UserRole.Entregador:
-                    var entregador = new Entregador
-                    {
-                        Email = request.Email,
-                        Nome = request.Nome,
-                        UsuarioId = request.UsuarioId!.Value
-                    };
-                    await _entregadorRepository.AddEntregador(entregador);
-                    break;
-                case UserRole.Restaurante:
-                    var restaurante = new Restaurante
-                    {
-                        Email = request.Email,
-                        Nome = request.Nome,
-                        Endereco = request.Endereco!,
-                        UsuarioId = request.UsuarioId!.Value
-                    };
-                    await _restauranteRepository.AddRestaurante(restaurante);
-                    break;
+                switch (request.Role)
+                {
+                    case UserRole.Cliente:
+                        var cliente = new Cliente
+                        {
+                            Email = request.Email,
+                            Nome = request.Nome,
+                            Endereco = request.Endereco!,
+                            UsuarioId = request.UsuarioId!.Value
+                        };
+                        await _clienteRepository.AdicionarCliente(cliente);
+                        break;
+                    case UserRole.Entregador:
+                        var entregador = new Entregador
+                        {
+                            Email = request.Email,
+                            Nome = request.Nome,
+                            UsuarioId = request.UsuarioId!.Value
+                        };
+                        await _entregadorRepository.AddEntregador(entregador);
+                        break;
+                    case UserRole.Restaurante:
+                        var restaurante = new Restaurante
+                        {
+                            Email = request.Email,
+                            Nome = request.Nome,
+                            Endereco = request.Endereco!,
+                            UsuarioId = request.UsuarioId!.Value,
+                            CategoriaId = request.CategoriaId!.Value
+                        };
+                        await _restauranteRepository.AddRestaurante(restaurante);
+                        break;
+                }
             }
+            catch (Exception ex) 
+            {
+                return;
+            }
+            
         }
     }
 }

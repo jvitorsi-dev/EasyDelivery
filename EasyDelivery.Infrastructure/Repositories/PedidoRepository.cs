@@ -56,7 +56,7 @@ namespace EasyDelivery.Infrastructure.Repositories
             }
             else
             {
-                await _context.Pedidos
+                pedidos = await _context.Pedidos
                 .Where(p => p.RestauranteId == restauranteId)
                 .ToListAsync();
             }

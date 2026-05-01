@@ -1,0 +1,124 @@
+<div class="page-wrapper">
+
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <p class="greeting">Bem-vindo de volta,</p>
+        <p class="rest-name">{{ restaurante?.nome }}</p>
+      </div>
+      <button class="status-toggle" (click)="toggleAberto()">
+        <div class="status-dot" [class.fechado]="!aberto"></div>
+        <span class="status-text">{{ aberto ? 'Aberto' : 'Fechado' }}</span>
+      </button>
+    </div>
+    <div class="cards-resumo">
+      <div class="resumo-card">
+        <p class="resumo-label">Pedidos hoje</p>
+        <p class="resumo-valor">{{ totalPedidosHoje }}</p>
+      </div>
+      <div class="resumo-card">
+        <p class="resumo-label">Faturamento hoje</p>
+        <p class="resumo-valor">{{ faturamentoHoje | currency:'BRL':'symbol':'1.2-2' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <p class="section-title">Novos pedidos</p>
+      <div class="pedidos-lista">
+        @if (pedidosNovos.length === 0) {
+          <div class="vazio">Nenhum pedido novo.</div>
+        }
+        @for (pedido of pedidosNovos; track pedido.id) {
+          <div class="pedido-card">
+            <div class="pedido-header">
+              <div class="cliente-icon">{{ getIniciais(pedido.cliente.nome) }}</div>
+              <div class="pedido-info">
+                <p class="pedido-cliente">{{ pedido.cliente.nome }}</p>
+                <p class="pedido-hora">{{ pedido.dataCriacao | date:'HH:mm' }} • #{{ pedido.id }}</p>
+              </div>
+              <span class="status-badge s-novo">Novo</span>
+            </div>
+            <hr class="pedido-divider">
+            <div class="pedido-itens">
+              @for (item of pedido.itens; track item.id) {
+                <div class="pedido-row">
+                  <span>{{ item.quantidade }}x {{ item.nome }}</span>
+                  <span>{{ item.preco * item.quantidade | currency:'BRL':'symbol':'1.2-2' }}</span>
+                </div>
+              }
+              <div class="pedido-total-row">
+                <span class="pedido-total-label">Total</span>
+                <span class="pedido-total-valor">{{ pedido.total | currency:'BRL':'symbol':'1.2-2' }}</span>
+              </div>
+            </div>
+            <div class="acoes">
+              <button class="acao-btn acao-recusar" (click)="recusarPedido(pedido.id)">Recusar</button>
+              <button class="acao-btn acao-aceitar" (click)="aceitarPedido(pedido.id)">Aceitar pedido</button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="section-title">Em andamento</p>
+      <div class="pedidos-lista">
+        @if (pedidosAndamento.length === 0) {
+          <div class="vazio">Nenhum pedido em andamento.</div>
+        }
+        @for (pedido of pedidosAndamento; track pedido.id) {
+          <div class="pedido-card">
+            <div class="pedido-header">
+              <div class="cliente-icon">{{ getIniciais(pedido.cliente.nome) }}</div>
+              <div class="pedido-info">
+                <p class="pedido-cliente">{{ pedido.cliente.nome }}</p>
+                <p class="pedido-hora">{{ pedido.dataCriacao | date:'HH:mm' }} • #{{ pedido.id }}</p>
+              </div>
+              <span class="status-badge status-{{ pedido.status }}">
+                {{ statusLabel[pedido.status] }}
+              </span>
+            </div>
+            <hr class="pedido-divider">
+            <div class="pedido-itens">
+              @for (item of pedido.itens; track item.id) {
+                <div class="pedido-row">
+                  <span>{{ item.quantidade }}x {{ item.nome }}</span>
+                  <span>{{ item.preco * item.quantidade | currency:'BRL':'symbol':'1.2-2' }}</span>
+                </div>
+              }
+              <div class="pedido-total-row">
+                <span class="pedido-total-label">Total</span>
+                <span class="pedido-total-valor">{{ pedido.total | currency:'BRL':'symbol':'1.2-2' }}</span>
+              </div>
+            </div>
+            @if (pedido.status < 5) {
+              <button class="acao-btn acao-avancar" (click)="avancarStatus(pedido)">
+                {{ pedido.status === 3 ? 'Pronto para entrega' : 'Avançar status' }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav-bottom">
+    <div class="nav-item ativo">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Início</span>
+    </div>
+    <div class="nav-item" [routerLink]="['/restaurante/cardapio']">
+      <span class="nav-icon">📋</span>
+      <span class="nav-label">Cardápio</span>
+    </div>
+    <div class="nav-item" [routerLink]="['/restaurante/perfil']">
+      <span class="nav-icon">⚙️</span>
+      <span class="nav-label">Perfil</span>
+    </div>
+  </div>
+
+</div>

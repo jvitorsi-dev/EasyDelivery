@@ -1,5 +1,34 @@
 <nav class="bottom-nav">
-  <a
+  @for(item of navItems; track item.label) 
+  {
+      <a
+          [routerLink]="item.route"
+          routerLinkActive="ativo"
+          class="nav-item">
+  
+          <div class="icon-wrap" [class.carrinho]="item.label === 'Carrinho'">
+            @if(item.label === 'Perfil') 
+            {              
+            <ng-container>
+              <span class="avatar">{{ getIniciais(nomeUsuario) }}</span>              
+            </ng-container>
+            }
+            @else {
+              {{iconDefault}}
+            }
+              
+            <ng-template #iconDefault>
+              <mat-icon>{{ item.icon }}</mat-icon>
+              @if (totalItens > 0 && item.label == 'Carrinho') {
+                <span class="badge">{{ totalItens }}</span>
+              }
+            </ng-template>
+          </div>
+  
+          <span class="nav-label">{{ item.label }}</span>
+        </a>
+  }
+  <!-- <a
     *ngFor="let item of navItems"
     [routerLink]="item.route"
     routerLinkActive="ativo"
@@ -18,5 +47,5 @@
     </div>
 
     <span class="nav-label">{{ item.label }}</span>
-  </a>
+  </a> -->
 </nav>

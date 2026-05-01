@@ -14,6 +14,7 @@ export class PedidoService {
 
   constructor(private http: HttpClient){}
 
+  //#region Clientes
   getPedidosByClienteId(id: number) {
     return this.http.get<any>(`${this.apiUrl}/pedidos-cliente/` + id );
   }
@@ -45,5 +46,16 @@ export class PedidoService {
   getPedidoById(id: number) {
     return this.http.get<TaskResult<PedidoResponse>>(`${this.apiUrl}/${id}`);
   }
+  //#endregion
 
+  // #region Restaurante
+  getPedidosByRestaurante(id: number) {
+    return this.http.get<any>(`${this.apiUrl}/pedidos-restaurante/` + id );
+  }
+
+  atualizarStatusPedido(id: number, status: number) {
+    return this.http.get(`${this.apiUrl}/atualizar-status/${id}/${status}`);
+  }
+
+  // #endregion
 }

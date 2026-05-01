@@ -93,5 +93,32 @@ namespace EasyDelivery.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("pedidos-restaurante/{restauranteId}")]
+        public async Task<IActionResult> GetPedidosPorRestaurante(int restauranteId)
+        {
+            var resultado = await _pedidoService.GetPedidosPorRestaurante(restauranteId);
+            if (!resultado.Success)
+                return NotFound(resultado.Message);
+
+            return Ok(resultado);
+        }
+
+        [HttpPost("atualizar-status")]
+        public async Task<IActionResult> AtualizarStatusPedido([FromBody] AtualizarStatusPedidoRequest request)
+        {
+            if (request.PedidoId <= 0)
+                return BadRequest("ID do pedido inválido.");
+
+            var statusValido = Enum.IsDefined(typeof(StatusPedido), request.Status);
+            if (!statusValido)
+                return BadRequest("Status do pedido inválido.");
+
+            var result = await _pedidoService.AtualizarStatusPedido(request.PedidoId, (StatusPedido)request.Status);
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(result);
+        }
     }
 }

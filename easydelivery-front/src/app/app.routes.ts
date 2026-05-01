@@ -4,6 +4,7 @@ import { RestauranteDetalhePage } from './pages/restaurante-detalhes-page/restau
 import { CarrinhoPage } from './pages/carrinho-page/carrinho-page';
 import { PagamentoComponente } from './componentes/pagamento-componente/pagamento-componente';
 import { PedidosPage } from './pages/pedidos-page/pedidos-page';
+import { RestauranteHomePage } from './pages/restaurante/restaurante-home-page/restaurante-home-page';
 
 export const routes: Routes = [
     {
@@ -34,5 +35,11 @@ export const routes: Routes = [
                 { path: 'pedidos', component: PedidosPage, data: { animation: 'cliente-pedidos' }  }
             ],
         runGuardsAndResolvers: 'always'
-        }
+    },
+    {
+        path: 'restaurante',
+        children:[
+            { path: 'home', component: RestauranteHomePage,  data: { animation: 'restaurante-home' } },
+        ]
+    }
 ];
