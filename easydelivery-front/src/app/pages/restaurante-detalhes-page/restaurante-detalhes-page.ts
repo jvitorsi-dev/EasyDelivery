@@ -23,7 +23,7 @@ export class RestauranteDetalhePage implements OnInit {
   produtosFiltrados: ItemRestauranteResponse[] = [];
   categorias: string[] = ['Todos'];
   categoriaSelecionada = 'Todos';
-  carrinho: any[] = [];
+  carrinho: ItemRestauranteResponse[] = [];
   private _snackBar = inject(MatSnackBar);
 
   constructor(
@@ -43,32 +43,31 @@ export class RestauranteDetalhePage implements OnInit {
   carregarRestaurante(id: number): void {
     this.restauranteService.getRestauranteById(id).subscribe({
       next: (res) => {
-        this.restaurante = res.data
-        this.produtos = this.restaurante.itens
+        this.restaurante = res.data;
+        this.produtos = this.restaurante.itens;
         this.produtosFiltrados = [...this.produtos];
-        this.categorias = ['Todos', ...this.restaurante.itens.map(i => i.categoria.nome)];
+        this.categorias = ['Todos', ...new Set(this.restaurante.itens.map((i) => i.categoria.nome))];
         this.cdr.detectChanges();
       },
       error: () => this._snackBar.open('Erro ao carregar restaurante.', 'Ok'),
     });
   }
 
-
   selecionarCategoria(cat: string): void {
     this.categoriaSelecionada = cat;
-    this.produtosFiltrados = cat === 'Todos'
-      ? [...this.produtos]
-      : this.produtos.filter(p => p.categoria.nome === cat);
+    this.produtosFiltrados = cat === 'Todos' ? [...this.produtos] : this.produtos.filter((p) => p.categoria.nome === cat);
   }
 
-  adicionarAoCarrinho(produto: any): void {
-    const existente = this.carrinho.find(i => i.idItem === produto.id);
+  adicionarAoCarrinho(produto: ItemRestauranteResponse): void {
+    const existente = this.carrinho.find((i) => i.idItem === produto.idItem);
     if (existente) {
       existente.quantidade++;
     } else {
       this.carrinho.push({ ...produto, quantidade: 1 });
-    }    
+    }
+
     this.carrinhoService.setItens(this.carrinho);
+    this._snackBar.open('Item adicionado ao carrinho!', 'Ok', { duration: 2000 });
   }
 
   get totalCarrinho(): number {
@@ -80,7 +79,7 @@ export class RestauranteDetalhePage implements OnInit {
   }
 
   getIniciais(nome: string): string {
-    return nome?.split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
+    return nome?.split(' ').map((p) => p[0]).slice(0, 2).join('').toUpperCase();
   }
 
   voltar(): void {

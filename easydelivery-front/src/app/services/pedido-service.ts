@@ -1,61 +1,62 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PedidoRequest } from '../models/pedido/pedidoRequest';
-import { ItensPedidoRequest } from '../models/pedido/itensPedidoRequest';
-import { StatusPedido } from '../models/enums/statusPedido';
 import { PedidoResponse } from '../models/pedido/pedidoResponse';
 import { TaskResult } from '../models/servico/taskResult';
+import { PedidoDetalhadoResponse } from '../models/pedido/pedido-detalhado-response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PedidoService {
-  private apiUrl = 'https://localhost:7158/api/Pedidos';
+  private apiUrl = `${environment.apiUrl}/Pedidos`;
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient) {}
 
-  //#region Clientes
   getPedidosByClienteId(id: number) {
-    return this.http.get<any>(`${this.apiUrl}/pedidos-cliente/` + id );
+    return this.http.get<TaskResult<PedidoDetalhadoResponse[]>>(`${this.apiUrl}/pedidos-cliente/${id}`);
   }
 
-  criarPedido(){
-    var pedido = this.getPedido();
-    console.log(pedido);
-    return this.http.post<any>(this.apiUrl + '/criar-pedido', pedido, {
+  criarPedido() {
+    const pedido = this.getPedido();
+    return this.http.post<TaskResult<PedidoResponse>>(this.apiUrl + '/criar-pedido', pedido, {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
   }
 
-  cancelarPedido(id: number){
-    return this.http.get(`${this.apiUrl}/cancelar` + id);
+  cancelarPedido(id: number) {
+    return this.http.get<TaskResult<PedidoDetalhadoResponse>>(`${this.apiUrl}/cancelar/${id}`);
   }
 
-  setPedido(pedido: PedidoRequest){
+  setPedido(pedido: PedidoRequest) {
     localStorage.setItem('pedido', JSON.stringify(pedido));
   }
 
   getPedido(): PedidoRequest | null {
     const pedido = localStorage.getItem('pedido');
     if (!pedido) return null;
-    return JSON.parse(pedido);
+    return JSON.parse(pedido) as PedidoRequest;
+  }
+
+  clearPedido() {
+    localStorage.removeItem('pedido');
   }
 
   getPedidoById(id: number) {
-    return this.http.get<TaskResult<PedidoResponse>>(`${this.apiUrl}/${id}`);
+    return this.http.get<TaskResult<PedidoDetalhadoResponse>>(`${this.apiUrl}/${id}`);
   }
-  //#endregion
 
-  // #region Restaurante
   getPedidosByRestaurante(id: number) {
-    return this.http.get<any>(`${this.apiUrl}/pedidos-restaurante/` + id );
+    return this.http.get<TaskResult<PedidoDetalhadoResponse[]>>(`${this.apiUrl}/pedidos-restaurante/${id}`);
   }
 
   atualizarStatusPedido(id: number, status: number) {
-    return this.http.get(`${this.apiUrl}/atualizar-status/${id}/${status}`);
+    return this.http.post<TaskResult<PedidoDetalhadoResponse>>(`${this.apiUrl}/atualizar-status`, {
+      pedidoId: id,
+      status,
+    });
   }
-
-  // #endregion
 }

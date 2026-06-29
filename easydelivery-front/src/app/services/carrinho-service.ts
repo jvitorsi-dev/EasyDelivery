@@ -1,33 +1,35 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
+import { ItemRestauranteResponse } from '../models/restaurante/itemsRestauranteResponse';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarrinhoService {
-
-  setItens(itens: any[]): void {
+  setItens(itens: ItemRestauranteResponse[]): void {
     localStorage.setItem('carrinho', JSON.stringify(itens));
   }
 
-  getItens(): any[] {
+  getItens(): ItemRestauranteResponse[] {
     const itens = localStorage.getItem('carrinho');
-    if (!itens) return []; // ← retorna array vazio se não existir
-    return JSON.parse(itens);
+    if (!itens) return [];
+    return JSON.parse(itens) as ItemRestauranteResponse[];
   }
 
-  adicionarItem(item: any): void {
+  adicionarItem(item: ItemRestauranteResponse): void {
     const itens = this.getItens();
-    const existente = itens.find((i: any) => i.id === item.id);
+    const existente = itens.find((i) => i.idItem === item.idItem);
+
     if (existente) {
       existente.quantidade++;
     } else {
       itens.push({ ...item, quantidade: 1 });
     }
+
     this.setItens(itens);
   }
 
-  removerItem(id: number): void {
-    const itens = this.getItens().filter((i: any) => i.id !== id);
+  removerItem(idItem: number): void {
+    const itens = this.getItens().filter((i) => i.idItem !== idItem);
     this.setItens(itens);
   }
 
@@ -36,6 +38,6 @@ export class CarrinhoService {
   }
 
   get totalItens(): number {
-    return this.getItens().reduce((acc: number, i: any) => acc + i.quantidade, 0);
+    return this.getItens().reduce((acc, i) => acc + i.quantidade, 0);
   }
 }

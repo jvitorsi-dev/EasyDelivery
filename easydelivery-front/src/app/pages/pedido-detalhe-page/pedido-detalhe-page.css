@@ -1,0 +1,14 @@
+.page-wrapper { min-height: 100vh; background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%); padding-bottom: 96px; }
+.header { padding: 32px 20px 12px; }
+.header-title { margin: 0; font-size: 1.8rem; font-weight: 800; color: #111827; }
+.header-sub { margin: 6px 0 0; color: #6b7280; }
+.content { padding: 16px 20px; display: grid; gap: 16px; }
+.card { background: #fff; border-radius: 20px; padding: 18px; box-shadow: 0 18px 40px rgba(15,23,42,.08); }
+.destaque { display: flex; justify-content: space-between; align-items: center; }
+.badge { background: #ede9fe; color: #6d28d9; border-radius: 999px; padding: 8px 12px; font-weight: 700; }
+.pedido-id, .card-title, .principal { margin: 0; color: #111827; }
+.card-title { font-size: .9rem; text-transform: uppercase; color: #6b7280; margin-bottom: 10px; }
+.principal { font-weight: 700; }
+.secundario { margin: 6px 0 0; color: #6b7280; }
+.item-row, .total-row { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; }
+.total-row { margin-top: 8px; border-top: 1px solid #e5e7eb; font-weight: 800; }

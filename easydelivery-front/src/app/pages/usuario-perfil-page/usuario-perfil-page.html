@@ -1,0 +1,33 @@
+<div class="page-wrapper">
+  <div class="header">
+    <p class="header-title">Meu perfil</p>
+    <p class="header-sub">Informações da conta</p>
+  </div>
+
+  <div class="content">
+    <div class="perfil-card" *ngIf="usuario as user">
+      <div class="avatar">{{ getIniciais(user.nome) }}</div>
+      <p class="nome">{{ user.nome }}</p>
+      <p class="role">{{ getRoleLabel() }}</p>
+
+      <div class="info-list">
+        <div class="info-item">
+          <span class="label">E-mail</span>
+          <span class="valor">{{ user.email }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Endereço</span>
+          <span class="valor">{{ user.endereco || 'Não informado' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">ID do usuário</span>
+          <span class="valor">#{{ user.id }}</span>
+        </div>
+      </div>
+
+      <button class="logout-btn" (click)="logout()">Sair</button>
+    </div>
+  </div>
+
+  <app-bottom-nav />
+</div>

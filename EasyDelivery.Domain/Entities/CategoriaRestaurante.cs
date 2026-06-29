@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EasyDelivery.Domain.Entities
 {
-    public class CategoriaItemRestaurante
+    public class CategoriaRestaurante
     {
         public int Id { get; set; }
         public string Nome { get; set; } = string.Empty;

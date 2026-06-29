@@ -1,51 +1,22 @@
 <nav class="bottom-nav">
-  @for(item of navItems; track item.label) 
-  {
-      <a
-          [routerLink]="item.route"
-          routerLinkActive="ativo"
-          class="nav-item">
-  
-          <div class="icon-wrap" [class.carrinho]="item.label === 'Carrinho'">
-            @if(item.label === 'Perfil') 
-            {              
-            <ng-container>
-              <span class="avatar">{{ getIniciais(nomeUsuario) }}</span>              
-            </ng-container>
-            }
-            @else {
-              {{iconDefault}}
-            }
-              
-            <ng-template #iconDefault>
-              <mat-icon>{{ item.icon }}</mat-icon>
-              @if (totalItens > 0 && item.label == 'Carrinho') {
-                <span class="badge">{{ totalItens }}</span>
-              }
-            </ng-template>
-          </div>
-  
-          <span class="nav-label">{{ item.label }}</span>
-        </a>
-  }
-  <!-- <a
-    *ngFor="let item of navItems"
-    [routerLink]="item.route"
-    routerLinkActive="ativo"
-    class="nav-item">
+  @for (item of navItems; track item.label) {
+    <a
+      [routerLink]="item.route"
+      routerLinkActive="ativo"
+      class="nav-item">
 
-    <div class="icon-wrap" [class.carrinho]="item.label === 'Carrinho'">
-      <ng-container *ngIf="item.label === 'Perfil'; else iconDefault">
-        <span class="avatar">{{ getIniciais(nomeUsuario) }}</span>
-      </ng-container>
-      <ng-template #iconDefault>
-        <mat-icon>{{ item.icon }}</mat-icon>
-        @if (totalItens > 0 && item.label == 'Carrinho') {
-          <span class="badge">{{ totalItens }}</span>
+      <div class="icon-wrap" [class.carrinho]="item.label === 'Carrinho'">
+        @if (item.label === 'Perfil') {
+          <span class="avatar">{{ getIniciais(nomeUsuario) }}</span>
+        } @else {
+          <mat-icon>{{ item.icon }}</mat-icon>
+          @if (totalItens > 0 && item.label === 'Carrinho') {
+            <span class="badge">{{ totalItens }}</span>
+          }
         }
-      </ng-template>
-    </div>
+      </div>
 
-    <span class="nav-label">{{ item.label }}</span>
-  </a> -->
+      <span class="nav-label">{{ item.label }}</span>
+    </a>
+  }
 </nav>

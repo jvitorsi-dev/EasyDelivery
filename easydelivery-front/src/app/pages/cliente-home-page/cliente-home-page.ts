@@ -14,19 +14,10 @@ import { RestauranteService } from '../../services/restaurante-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoriaRestauranteResponse } from '../../models/restaurante/categoriaRestauranteResponse';
 
-
 @Component({
   selector: 'app-cliente-home',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    RouterModule,
-    BottomNavComponent
-  ],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, RouterModule, BottomNavComponent],
   templateUrl: './cliente-home-page.html',
   styleUrls: ['./cliente-home-page.css'],
 })
@@ -35,62 +26,69 @@ export class ClienteHomePage implements OnInit {
   restaurantes: RestauranteResponse[] = [];
   restaurantesFiltrados: RestauranteResponse[] = [];
   categoriasResponse: CategoriaRestauranteResponse[] = [];
-  categorias = ['Todos', 'Pizza', 'Hambúrguer', 'Japonês', 'Árabe'];
   categoriaSelecionada = 'Todos';
-  usuario!: UsuarioResponse
-  totalCarrinho = 2;
+  usuario!: UsuarioResponse;
   private _snackBar = inject(MatSnackBar);
 
-
-  ngOnInit(): void {
-    this.getUsuario();    
-    this.carregarRestaurantes();
-    this.searchControl.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe(termo => this.filtrar(termo ?? ''));
-  }
-
-  constructor(private authService: AuthService,
+  constructor(
+    private authService: AuthService,
     private restauranteService: RestauranteService,
     private cdr: ChangeDetectorRef
-  ){}
+  ) {}
+
+  ngOnInit(): void {
+    this.getUsuario();
+    this.carregarRestaurantes();
+    this.searchControl.valueChanges.pipe(debounceTime(300), distinctUntilChanged()).subscribe((termo) => this.filtrar(termo ?? ''));
+  }
 
   carregarRestaurantes(): void {
     this.restauranteService.getAllRestaurantes().subscribe({
-      next: (response) =>{
+      next: (response) => {
         this.restaurantes = response.data;
         this.restaurantesFiltrados = [...this.restaurantes];
-        this.categoriasResponse = [{ id: 0, nome: 'Todos' },...this.restaurantes.map(r => r.categoria)];
-        this.cdr.detectChanges(); // ← força atualização da view
+
+        const categoriasUnicas = new Map<number, CategoriaRestauranteResponse>();
+        this.restaurantes.forEach((r) => categoriasUnicas.set(r.categoria.id, r.categoria));
+        this.categoriasResponse = [{ id: 0, nome: 'Todos' }, ...Array.from(categoriasUnicas.values())];
+
+        this.cdr.detectChanges();
       },
-      error: () =>{
+      error: () => {
         this._snackBar.open('Houve um erro ao carregar os restaurantes.', 'Ok');
-      }
-    })
-  }  
+      },
+    });
+  }
 
   filtrar(termo: string): void {
     const t = termo.toLowerCase();
-    this.restaurantesFiltrados = this.restaurantes.filter(r =>
-      r.nome.toLowerCase().includes(t) ||
-      r.endereco.toLowerCase().includes(t)
+    this.restaurantesFiltrados = this.restaurantes.filter(
+      (r) => r.nome.toLowerCase().includes(t) || r.endereco.toLowerCase().includes(t)
     );
   }
 
-  getUsuario(){
-    this.usuario = this.authService.getUsuario();
+  getUsuario() {
+    const usuario = this.authService.getUsuario();
+    if (usuario) {
+      this.usuario = usuario;
+    }
   }
 
   selecionarCategoria(categoria: number): void {
-    this.categoriaSelecionada = this.categoriasResponse.find(c => c.id == categoria)!.nome;
-    if(this.categoriaSelecionada != 'Todos')
-      this.restaurantesFiltrados = this.restaurantes.filter(r => r.categoria.id == categoria);
-    else
+    this.categoriaSelecionada = this.categoriasResponse.find((c) => c.id === categoria)?.nome ?? 'Todos';
+    if (this.categoriaSelecionada !== 'Todos') {
+      this.restaurantesFiltrados = this.restaurantes.filter((r) => r.categoria.id === categoria);
+    } else {
       this.restaurantesFiltrados = this.restaurantes;
+    }
   }
 
   getIniciais(nome: string): string {
-    return nome.split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
+    return nome
+      .split(' ')
+      .map((p) => p[0])
+      .slice(0, 2)
+      .join('')
+      .toUpperCase();
   }
 }

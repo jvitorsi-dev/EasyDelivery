@@ -1,4 +1,4 @@
-﻿using EasyDelivery.Application.DTOs.Cliente;
+using EasyDelivery.Application.DTOs.Cliente;
 using EasyDelivery.Domain.Entities;
 using System;
 using System.Collections.Generic;

@@ -15,7 +15,7 @@ namespace EasyDelivery.Domain.Entities
         public int CategoriaId { get; set; }
 
 
-        public CategoriaItemRestaurante Categoria { get; set; } = default!;
+        public CategoriaRestaurante Categoria { get; set; } = default!;
         public Usuario Usuario { get; set; } = default!;
         public List<ItemRestaurante> Itens { get; set; } = default!;
     }

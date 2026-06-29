@@ -68,6 +68,7 @@ export class RegisterPage {
       role: this.registerForm.value.role,
     };
 
+    console.log(payload);
     this.authService.register(payload).subscribe({
       next: () =>{
         this.router.navigateByUrl('');

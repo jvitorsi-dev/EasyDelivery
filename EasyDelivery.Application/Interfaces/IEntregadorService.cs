@@ -1,4 +1,4 @@
-﻿using EasyDelivery.Application.DTOs.Entregador;
+using EasyDelivery.Application.DTOs.Entregador;
 using EasyDelivery.Domain.Entities;
 
 namespace EasyDelivery.Application.Interfaces

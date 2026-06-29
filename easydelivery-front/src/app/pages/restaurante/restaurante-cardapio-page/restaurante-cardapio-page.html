@@ -1,0 +1,36 @@
+<div class="page-wrapper">
+  <div class="header">
+    <p class="header-title">Cardápio</p>
+    <p class="header-sub">Itens cadastrados no restaurante</p>
+  </div>
+
+  <div class="content" *ngIf="restaurante as rest">
+    <div class="rest-card">
+      <div class="rest-icon">{{ getIniciais(rest.nome) }}</div>
+      <div>
+        <p class="rest-nome">{{ rest.nome }}</p>
+        <p class="rest-endereco">{{ rest.endereco }}</p>
+      </div>
+    </div>
+
+    <div class="lista-itens">
+      <div class="item-card" *ngFor="let item of rest.itens">
+        <div>
+          <p class="item-nome">{{ item.nome }}</p>
+          <p class="item-desc">{{ item.descricao }}</p>
+          <p class="item-categoria">{{ item.categoria.nome }}</p>
+        </div>
+        <div class="item-side">
+          <span class="item-preco">{{ item.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+          <span class="item-estoque">Estoque: {{ item.quantidade }}</span>
+        </div>
+      </div>
+
+      <div class="vazio" *ngIf="rest.itens.length === 0">
+        Nenhum item cadastrado no cardápio.
+      </div>
+    </div>
+  </div>
+
+  <app-bottom-nav />
+</div>

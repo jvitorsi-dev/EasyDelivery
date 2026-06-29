@@ -22,6 +22,41 @@ namespace EasyDelivery.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("EasyDelivery.Domain.Entities.CategoriaItemRestaurante", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CategoriasRestaurantes");
+                });
+
+            modelBuilder.Entity("EasyDelivery.Domain.Entities.CategoriaItensRestaurante", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CategoriasItensRestaurante");
+                });
+
             modelBuilder.Entity("EasyDelivery.Domain.Entities.Cliente", b =>
                 {
                     b.Property<int>("Id")
@@ -76,14 +111,10 @@ namespace EasyDelivery.Infrastructure.Migrations
                     b.Property<int>("PedidoId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PedidoId")
-                        .IsUnique();
 
                     b.ToTable("Entregas");
                 });
@@ -162,12 +193,19 @@ namespace EasyDelivery.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Nome")
-                        .IsRequired()
+                    b.Property<int?>("CategoriaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descricao")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
                     b.Property<decimal>("Preco")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("QuantidadeEstoque")
                         .HasColumnType("int");
@@ -176,6 +214,8 @@ namespace EasyDelivery.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoriaId");
 
                     b.HasIndex("RestauranteId");
 
@@ -232,6 +272,9 @@ namespace EasyDelivery.Infrastructure.Migrations
                     b.Property<DateTime?>("HoraSaida")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PaymentId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RestauranteId")
                         .HasColumnType("int");
 
@@ -261,6 +304,9 @@ namespace EasyDelivery.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -276,10 +322,15 @@ namespace EasyDelivery.Infrastructure.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<decimal?>("Nota")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoriaId");
 
                     b.HasIndex("Email")
                         .IsUnique();
@@ -330,15 +381,6 @@ namespace EasyDelivery.Infrastructure.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("EasyDelivery.Domain.Entities.Entrega", b =>
-                {
-                    b.HasOne("EasyDelivery.Domain.Entities.Pedido", null)
-                        .WithOne()
-                        .HasForeignKey("EasyDelivery.Domain.Entities.Entrega", "PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("EasyDelivery.Domain.Entities.Entregador", b =>
                 {
                     b.HasOne("EasyDelivery.Domain.Entities.Usuario", "Usuario")
@@ -361,11 +403,17 @@ namespace EasyDelivery.Infrastructure.Migrations
 
             modelBuilder.Entity("EasyDelivery.Domain.Entities.ItemRestaurante", b =>
                 {
+                    b.HasOne("EasyDelivery.Domain.Entities.CategoriaItensRestaurante", "CategoriaItensRestaurante")
+                        .WithMany("ItemRestaurante")
+                        .HasForeignKey("CategoriaId");
+
                     b.HasOne("EasyDelivery.Domain.Entities.Restaurante", null)
                         .WithMany("Itens")
                         .HasForeignKey("RestauranteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CategoriaItensRestaurante");
                 });
 
             modelBuilder.Entity("EasyDelivery.Domain.Entities.Pagamento", b =>
@@ -399,13 +447,31 @@ namespace EasyDelivery.Infrastructure.Migrations
 
             modelBuilder.Entity("EasyDelivery.Domain.Entities.Restaurante", b =>
                 {
+                    b.HasOne("EasyDelivery.Domain.Entities.CategoriaItemRestaurante", "Categoria")
+                        .WithMany("Restaurantes")
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EasyDelivery.Domain.Entities.Usuario", "Usuario")
                         .WithOne("Restaurante")
                         .HasForeignKey("EasyDelivery.Domain.Entities.Restaurante", "UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Categoria");
+
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("EasyDelivery.Domain.Entities.CategoriaItemRestaurante", b =>
+                {
+                    b.Navigation("Restaurantes");
+                });
+
+            modelBuilder.Entity("EasyDelivery.Domain.Entities.CategoriaItensRestaurante", b =>
+                {
+                    b.Navigation("ItemRestaurante");
                 });
 
             modelBuilder.Entity("EasyDelivery.Domain.Entities.Pedido", b =>

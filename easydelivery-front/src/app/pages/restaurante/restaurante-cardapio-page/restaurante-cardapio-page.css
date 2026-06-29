@@ -1,0 +1,97 @@
+.page-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+  padding-bottom: 96px;
+}
+
+.header {
+  padding: 32px 20px 16px;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+.header-sub {
+  margin: 6px 0 0;
+  color: #6b7280;
+}
+
+.content {
+  padding: 16px 20px;
+  display: grid;
+  gap: 16px;
+}
+
+.rest-card,
+.item-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.rest-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rest-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #f97316, #fb7185);
+  color: #fff;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rest-nome,
+.item-nome {
+  margin: 0;
+  font-weight: 700;
+  color: #111827;
+}
+
+.rest-endereco,
+.item-desc,
+.item-estoque,
+.item-categoria {
+  margin: 4px 0 0;
+  color: #6b7280;
+}
+
+.lista-itens {
+  display: grid;
+  gap: 14px;
+}
+
+.item-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.item-side {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-preco {
+  color: #16a34a;
+  font-weight: 800;
+}
+
+.vazio {
+  text-align: center;
+  color: #6b7280;
+  padding: 24px;
+}

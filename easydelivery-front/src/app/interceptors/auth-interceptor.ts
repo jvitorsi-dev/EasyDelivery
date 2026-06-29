@@ -6,16 +6,17 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.getToken();
 
-   // 🚫 Ignora endpoint de login
-  if (req.url.includes('/login')) {
+  const isPublicEndpoint = req.url.includes('/api/Auth') || req.url.includes('/api/Usuario/criar');
+
+  if (isPublicEndpoint) {
     return next(req);
   }
 
   if (token) {
     const cloned = req.clone({
       setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     return next(cloned);

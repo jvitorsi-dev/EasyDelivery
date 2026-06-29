@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '../../../services/auth-service';
 import { PedidoService } from '../../../services/pedido-service';
+import { PedidoDetalhadoResponse } from '../../../models/pedido/pedido-detalhado-response';
 
 @Component({
   selector: 'app-restaurante-home',
@@ -15,8 +16,8 @@ import { PedidoService } from '../../../services/pedido-service';
 })
 export class RestauranteHomePage implements OnInit {
   restaurante: any;
-  pedidosNovos: any[] = [];
-  pedidosAndamento: any[] = [];
+  pedidosNovos: PedidoDetalhadoResponse[] = [];
+  pedidosAndamento: PedidoDetalhadoResponse[] = [];
   totalPedidosHoje = 0;
   faturamentoHoje = 0;
   aberto = true;
@@ -47,14 +48,24 @@ export class RestauranteHomePage implements OnInit {
   carregarPedidos(): void {
     this.pedidoService.getPedidosByRestaurante(this.restaurante.id).subscribe({
       next: (res) => {
-        const todos = res.data;
-        console.log('Pedidos carregados:', todos);
-        this.pedidosNovos     = todos.filter((p: any) => p.status === 0);
-        this.pedidosAndamento = todos.filter((p: any) => this.statusAndamento.includes(p.status));
-        this.totalPedidosHoje = todos.filter((p: any) => this.isHoje(p.dataCriacao)).length;
-        this.faturamentoHoje  = todos
-          .filter((p: any) => this.isHoje(p.dataCriacao) && p.status !== 7)
-          .reduce((acc: number, p: any) => acc + p.total, 0);
+        const todos: PedidoDetalhadoResponse[] = res.data ?? [];
+
+        this.pedidosNovos = todos.filter(
+          (p: PedidoDetalhadoResponse) => p.status === 0 || p.status === 1
+        );
+
+        this.pedidosAndamento = todos.filter((p: PedidoDetalhadoResponse) =>
+          this.statusAndamento.includes(p.status)
+        );
+
+        this.totalPedidosHoje = todos.filter((p: PedidoDetalhadoResponse) =>
+          this.isHoje(p.dataCriacao)
+        ).length;
+
+        this.faturamentoHoje = todos
+          .filter((p: PedidoDetalhadoResponse) => this.isHoje(p.dataCriacao) && p.status !== 7)
+          .reduce((acc: number, p: PedidoDetalhadoResponse) => acc + p.valorTotal, 0);
+
         this.cdr.detectChanges();
       },
       error: () => this._snackBar.open('Erro ao carregar pedidos.', 'Ok'),
@@ -63,22 +74,31 @@ export class RestauranteHomePage implements OnInit {
 
   aceitarPedido(id: number): void {
     this.pedidoService.atualizarStatusPedido(id, 3).subscribe({
-      next: () => { this._snackBar.open('Pedido aceito!', 'Ok'); this.carregarPedidos(); },
+      next: () => {
+        this._snackBar.open('Pedido aceito!', 'Ok');
+        this.carregarPedidos();
+      },
       error: () => this._snackBar.open('Erro ao aceitar pedido.', 'Ok'),
     });
   }
 
   recusarPedido(id: number): void {
     this.pedidoService.atualizarStatusPedido(id, 7).subscribe({
-      next: () => { this._snackBar.open('Pedido recusado.', 'Ok'); this.carregarPedidos(); },
+      next: () => {
+        this._snackBar.open('Pedido recusado.', 'Ok');
+        this.carregarPedidos();
+      },
       error: () => this._snackBar.open('Erro ao recusar pedido.', 'Ok'),
     });
   }
 
-  avancarStatus(pedido: any): void {
+  avancarStatus(pedido: PedidoDetalhadoResponse): void {
     const proximo = pedido.status + 1;
     this.pedidoService.atualizarStatusPedido(pedido.id, proximo).subscribe({
-      next: () => { this._snackBar.open('Status atualizado!', 'Ok'); this.carregarPedidos(); },
+      next: () => {
+        this._snackBar.open('Status atualizado!', 'Ok');
+        this.carregarPedidos();
+      },
       error: () => this._snackBar.open('Erro ao atualizar status.', 'Ok'),
     });
   }

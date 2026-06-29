@@ -1,4 +1,4 @@
-﻿using EasyDelivery.Domain.Entities.Enums;
+using EasyDelivery.Domain.Entities.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;

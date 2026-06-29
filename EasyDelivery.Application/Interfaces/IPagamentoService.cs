@@ -1,4 +1,4 @@
-﻿using EasyDelivery.Application.DTOs.Pagamento;
+using EasyDelivery.Application.DTOs.Pagamento;
 using EasyDelivery.Application.DTOs.Pedido;
 using EasyDelivery.Domain.Entities;
 using System;

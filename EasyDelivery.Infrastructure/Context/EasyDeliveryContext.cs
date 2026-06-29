@@ -22,7 +22,7 @@ namespace EasyDelivery.Infrastructure.Context
         public DbSet<Restaurante> Restaurantes { get; set; }
         public DbSet<Entregador> Entregadores { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<CategoriaItemRestaurante> CategoriasRestaurantes { get; set; }
+        public DbSet<CategoriaRestaurante> CategoriasRestaurantes { get; set; }
         public DbSet<CategoriaItensRestaurante> CategoriasItensRestaurante { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -153,7 +153,7 @@ namespace EasyDelivery.Infrastructure.Context
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            modelBuilder.Entity<CategoriaItemRestaurante>(entity =>
+            modelBuilder.Entity<CategoriaRestaurante>(entity =>
             {
                 entity.HasKey(c => c.Id);
 

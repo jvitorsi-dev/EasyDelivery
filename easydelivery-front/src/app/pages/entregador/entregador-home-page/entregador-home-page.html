@@ -1,0 +1,128 @@
+<div class="page-wrapper">
+
+  <div class="header">
+    <p class="header-title">Entregas</p>
+    <p class="header-sub">Aceite pedidos e acompanhe suas entregas</p>
+  </div>
+
+  <div class="content">
+
+    @if (carregando) {
+      <div class="vazio">Carregando pedidos...</div>
+    }
+
+    <div class="section">
+      <p class="section-title">Disponíveis</p>
+      <div class="lista">
+        @if (!carregando && pedidosDisponiveis.length === 0) {
+          <div class="vazio">Nenhum pedido disponível.</div>
+        }
+
+        @for (pedido of pedidosDisponiveis; track pedido.id) {
+          <div class="pedido-card">
+            <div class="pedido-header">
+              <div class="rest-icon">
+                {{ getIniciais(pedido.restaurante?.nome || 'Restaurante') }}
+              </div>
+
+              <div class="pedido-header-info">
+                <p class="pedido-rest">{{ pedido.restaurante?.nome || 'Restaurante' }}</p>
+                <p class="pedido-data">Pedido #{{ pedido.id }}</p>
+              </div>
+
+              <span class="status-badge status-4">Disponível</span>
+            </div>
+
+            <hr class="pedido-divider">
+
+            <div class="pedido-itens">
+              <div class="pedido-item-row">
+                <span>Retirada</span>
+                <span>{{ pedido.restaurante?.endereco || 'Não informado' }}</span>
+              </div>
+
+              <div class="pedido-item-row">
+                <span>Cliente</span>
+                <span>{{ pedido.cliente?.nome || 'Não informado' }}</span>
+              </div>
+
+              <div class="pedido-item-row">
+                <span>Entrega</span>
+                <span>{{ pedido.cliente?.endereco || 'Não informado' }}</span>
+              </div>
+
+              <div class="pedido-total-row">
+                <span class="pedido-total-label">Total</span>
+                <span class="pedido-total-valor">
+                  {{ pedido.valorTotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+                </span>
+              </div>
+            </div>
+
+            <button class="acao-btn acao-aceitar" (click)="aceitarPedido(pedido.id)">
+              Aceitar entrega
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="section-title">Em andamento</p>
+      <div class="lista">
+        @if (!carregando && meusPedidos.length === 0) {
+          <div class="vazio">Você não possui entregas em andamento.</div>
+        }
+
+        @for (pedido of meusPedidos; track pedido.id) {
+          <div class="pedido-card">
+            <div class="pedido-header">
+              <div class="rest-icon">
+                {{ getIniciais(pedido.restaurante?.nome || 'Restaurante') }}
+              </div>
+
+              <div class="pedido-header-info">
+                <p class="pedido-rest">{{ pedido.restaurante?.nome || 'Restaurante' }}</p>
+                <p class="pedido-data">Pedido #{{ pedido.id }}</p>
+              </div>
+
+              <span class="status-badge" [ngClass]="'status-' + pedido.status">
+                {{ pedido.status === 6 ? 'Entregue' : 'Em rota' }}
+              </span>
+            </div>
+
+            <hr class="pedido-divider">
+
+            <div class="pedido-itens">
+              <div class="pedido-item-row">
+                <span>Cliente</span>
+                <span>{{ pedido.cliente?.nome || 'Não informado' }}</span>
+              </div>
+
+              <div class="pedido-item-row">
+                <span>Endereço</span>
+                <span>{{ pedido.cliente?.endereco || 'Não informado' }}</span>
+              </div>
+
+              <div class="pedido-total-row">
+                <span class="pedido-total-label">Total</span>
+                <span class="pedido-total-valor">
+                  {{ pedido.valorTotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+                </span>
+              </div>
+            </div>
+
+            @if (pedido.status === 5) {
+              <button class="acao-btn acao-concluir" (click)="concluirEntrega(pedido.id)">
+                Concluir entrega
+              </button>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+
+  <app-bottom-nav />
+</div>

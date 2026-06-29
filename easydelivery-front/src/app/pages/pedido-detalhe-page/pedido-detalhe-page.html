@@ -1,0 +1,40 @@
+<div class="page-wrapper">
+  <div class="header">
+    <p class="header-title">Detalhes do pedido</p>
+    <p class="header-sub">Acompanhe as informações completas</p>
+  </div>
+
+  <div class="content" *ngIf="pedido as p">
+    <div class="card destaque">
+      <p class="pedido-id">Pedido #{{ p.id }}</p>
+      <span class="badge status-{{ p.status }}">{{ statusLabel[p.status] }}</span>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Restaurante</p>
+      <p class="principal">{{ p.restaurante.nome }}</p>
+      <p class="secundario">{{ p.restaurante.endereco }}</p>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Itens</p>
+      <div class="item-row" *ngFor="let item of p.itens">
+        <span>{{ item.quantidade }}x {{ item.nome }}</span>
+        <span>{{ item.preco * item.quantidade | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+      </div>
+      <div class="total-row">
+        <span>Total</span>
+        <span>{{ p.valorTotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Entrega</p>
+      <p class="principal">{{ p.cliente.nome }}</p>
+      <p class="secundario">{{ p.cliente.endereco }}</p>
+      <p class="secundario">Criado em {{ p.dataCriacao | date:'dd/MM/yyyy HH:mm' }}</p>
+    </div>
+  </div>
+
+  <app-bottom-nav />
+</div>

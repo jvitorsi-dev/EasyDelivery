@@ -17,12 +17,12 @@ namespace EasyDelivery.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<CategoriaItemRestaurante?> GetCategoria(int id)
+        public async Task<CategoriaRestaurante?> GetCategoria(int id)
         {
             return await _context.CategoriasRestaurantes.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<List<CategoriaItemRestaurante>> GetCategorias(List<int> ids)
+        public async Task<List<CategoriaRestaurante>> GetCategorias(List<int> ids)
         {
             return await _context.CategoriasRestaurantes.Where(c => ids.Contains(c.Id)).ToListAsync();
         }

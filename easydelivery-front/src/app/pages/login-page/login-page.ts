@@ -59,7 +59,8 @@ export class LoginPage {
     if(email != '' && senha != ''){
       try{
         this.authService.login(email, senha).subscribe({
-          next: (response) => {            
+          next: (response) => {        
+            console.log('Login bem-sucedido:', response);    
             this.authService.setToken(response.token);
             this.authService.setUsuario(response.usuario);
 
@@ -69,6 +70,10 @@ export class LoginPage {
 
             if(response.usuario.role == UserRole.Restaurante){
               this.router.navigateByUrl('restaurante/home');
+            }
+
+            if (response.usuario.role === UserRole.Entregador) {
+              this.router.navigateByUrl('entregador/home');
             }
           },
           error: (err) => {

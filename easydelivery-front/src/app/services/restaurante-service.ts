@@ -2,23 +2,21 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RestauranteResponse } from '../models/restaurante/restauranteResponse';
 import { TaskResult } from '../models/servico/taskResult';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RestauranteService {
-  private apiUrlRestaurante = 'https://localhost:7158/api/Restaurante';
+  private apiUrlRestaurante = `${environment.apiUrl}/Restaurante`;
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient) {}
 
-  getAllRestaurantes(){
+  getAllRestaurantes() {
     return this.http.get<TaskResult<RestauranteResponse[]>>(this.apiUrlRestaurante);
   }
 
-  getRestauranteById(restauranteId: number){
-    return this.http.get<TaskResult<RestauranteResponse>>(this.apiUrlRestaurante + '/' + restauranteId);
+  getRestauranteById(restauranteId: number) {
+    return this.http.get<TaskResult<RestauranteResponse>>(`${this.apiUrlRestaurante}/${restauranteId}`);
   }
-
-  
-
 }

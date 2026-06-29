@@ -51,7 +51,7 @@
               }
               <div class="pedido-total-row">
                 <span class="pedido-total-label">Total</span>
-                <span class="pedido-total-valor">{{ pedido.total | currency:'BRL':'symbol':'1.2-2' }}</span>
+                <span class="pedido-total-valor">{{ pedido.valorTotal  | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
             </div>
             <div class="acoes">
@@ -91,7 +91,7 @@
               }
               <div class="pedido-total-row">
                 <span class="pedido-total-label">Total</span>
-                <span class="pedido-total-valor">{{ pedido.total | currency:'BRL':'symbol':'1.2-2' }}</span>
+                <span class="pedido-total-valor">{{ pedido.valorTotal  | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
             </div>
             @if (pedido.status < 5) {
