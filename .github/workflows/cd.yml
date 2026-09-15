@@ -1,0 +1,29 @@
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Pipeline de Deploy
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Simulação de Deploy em Produção
+        run: |
+          echo "=========================================="
+          echo "       EASYDELIVERY - DEPLOY INICIADO     "
+          echo "=========================================="
+          echo "Commit: ${{ github.event.workflow_run.head_sha }}"
+          echo "Ambiente: Produção"
+          echo "Status dos Testes e Build: Aprovados com Sucesso"
+          echo "Deploy finalizado com sucesso!"

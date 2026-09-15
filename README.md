@@ -1,5 +1,7 @@
 # EasyDelivery
 
+[![CI](https://github.com/jvitorsi-dev/EasyDelivery/actions/workflows/ci.yml/badge.svg)](https://github.com/jvitorsi-dev/EasyDelivery/actions/workflows/ci.yml)
+
 Sistema de gerenciamento de pedidos para restaurantes, com backend em ASP.NET Core e frontend em Angular.
 
 ## Visão Geral
