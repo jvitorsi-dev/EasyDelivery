@@ -3,4 +3,5 @@
   <Project Path="EasyDelivery.Domain/EasyDelivery.Domain.csproj" />
   <Project Path="EasyDelivery.Infrastructure/EasyDelivery.Infrastructure.csproj" />
   <Project Path="EasyDelivery/EasyDelivery.csproj" />
+  <Project Path="EasyDelivery.Tests/EasyDelivery.Tests.csproj" />
 </Solution>

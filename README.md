@@ -14,6 +14,7 @@ EasyDelivery.slnx
 ├── EasyDelivery.Application/    # Casos de uso, DTOs e regras de aplicação
 ├── EasyDelivery.Domain/         # Entidades de negócio e interfaces
 ├── EasyDelivery.Infrastructure/ # EF Core, Context, Migrations e gateway Mercado Pago
+├── EasyDelivery.Tests/          # Testes de unidade automatizados (xUnit + Moq)
 └── easydelivery-front/          # SPA Angular (componentes, formulários e services)
 ```
 
@@ -23,6 +24,7 @@ EasyDelivery.slnx
 - **Frontend:** Angular, TypeScript, HTML5, CSS3/SCSS, Angular Material
 - **Autenticação:** JWT (JSON Web Tokens)
 - **Pagamentos:** SDK / API Mercado Pago
+- **Qualidade & Testes:** xUnit, Moq
 - **Ferramentas:** Swagger/OpenAPI, User Secrets
 
 ## Funcionalidades
@@ -60,6 +62,13 @@ npm install
 npm start
 ```
 O app estará acessível em `http://localhost:4200`.
+
+### Testes Automatizados
+
+Para executar os testes de unidade da solução:
+```bash
+dotnet test
+```
 
 ## Licença
 
